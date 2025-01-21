@@ -4,7 +4,7 @@ import numpy as np
 from pathlib import Path
 from sklearn.preprocessing import OneHotEncoder
 
-DATA_FOLDER = Path("datasets")
+DATA_FOLDER = Path("../data/")
 
 def loadCsv(file_path):
     data = []
@@ -17,7 +17,6 @@ def loadCsv(file_path):
     return data, n, d
 
 def oneHotEncodeColumns(data, columnsCategories):
-    # ...existing code...
     dataCategories = data[:, columnsCategories]
     dataEncoded = OneHotEncoder(sparse_output=False).fit_transform(dataCategories)
     columnsNumerical = [i for i in range(data.shape[1]) if i not in columnsCategories]

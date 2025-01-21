@@ -1,0 +1,3 @@
+---
+title: Approches paramétriques linéaires
+---
