@@ -1,0 +1,24 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  title: Classification experiments
+  subtitle: Theory and implementation of classifiers
+  subject: Machine Learning - Course Project
+  date: 2024-01-10
+  github: https://github.com/mathisdrn/classification-experiements/
+  license:
+    content: CC-BY-SA-4.0
+    code: MIT
+  authors: 
+    - name: Mathis Derenne
+      affiliation: University of Lyon
+      github: mathisdrn
+    
+  toc:
+    - file: src/01 - Introduction.md
+    
+site:
+  template: book-theme
+  options:
+    logo_text: "‎"
+    hide_search: true

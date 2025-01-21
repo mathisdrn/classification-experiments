@@ -1,0 +1,11 @@
+_build
+__pycache__
+.ipynb_checkpoints
+.lintr
+.DS_Store*
+ehthumbs.db
+Icon
+.virtual_documents
+.vscode
+
+data/*.pkl
