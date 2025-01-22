@@ -15,7 +15,7 @@ project:
       github: mathisdrn
     
   toc:
-    - file: src/01 - Introduction.md
+    - file: doc/01 - Introduction.md
     
 site:
   template: book-theme
