@@ -8,4 +8,5 @@ Icon
 .virtual_documents
 .vscode
 
+src_built/
 data/*.pkl
