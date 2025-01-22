@@ -246,7 +246,7 @@ dataset_loaders = {
     'yeast6': _yeast_loader
 }
 
-def data_recovery(dataset):
+def load_dataset(dataset):
     loader = dataset_loaders.get(dataset)
     if not loader:
         raise ValueError(f"Unrecognized dataset: {dataset}")
