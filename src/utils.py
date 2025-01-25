@@ -12,7 +12,7 @@ plt.rcParams['figure.dpi'] = 100
 # plt.style.use('https://pltstyle.s3.eu-west-1.amazonaws.com/zinc.mplstyle')
 
 
-def roc_plot(y_true, y_val_proba):
+def plot_roc(y_true, y_val_proba):
     fpr, tpr, _ = roc_curve(y_true, y_val_proba)
     roc_auc = roc_auc_score(y_true, y_val_proba)
     plt.figure()
@@ -24,7 +24,7 @@ def roc_plot(y_true, y_val_proba):
     plt.legend(loc='best')
     plt.show()
 
-def precision_recall_plot(y_true, y_val_proba):
+def plot_precision_recall(y_true, y_val_proba):
     precision, recall, thresholds_pr = precision_recall_curve(y_true, y_val_proba)
     plt.figure()
     plt.plot(thresholds_pr, precision[:-1], 'b--', label='Precision')
