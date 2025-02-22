@@ -1,5 +1,5 @@
 ---
-title: Approches non paramétriques
+title: Méthodologie générale
 ---
 
 ## Méthodologie générale

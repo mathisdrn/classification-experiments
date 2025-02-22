@@ -1,5 +1,5 @@
 ---
-title: Classification
+title: Classification binaire
 ---
 
 ### Introduction

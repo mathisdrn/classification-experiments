@@ -1,7 +1,7 @@
 # See docs at: https://mystmd.org/guide/frontmatter
 version: 1
 project:
-  title: Classification experiments
+  title: Classification binaire
   subtitle: Theory and implementation of classifiers
   subject: Machine Learning - Course Project
   date: 2024-01-10
@@ -16,6 +16,10 @@ project:
     
   toc:
     - file: doc/01 - Introduction.md
+    - file: doc/02 - Méthodologie générale.md
+    - file: doc/03 - Approches non paramétriques.md
+    - file: doc/04 - Approches non linéaires.md
+    - file: doc/05 - Approches paramétriques linéaires.md
     
 site:
   template: book-theme
