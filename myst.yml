@@ -13,6 +13,9 @@ project:
     - name: Mathis Derenne
       affiliation: University of Lyon
       github: mathisdrn
+    - name: Djida Boukari
+      affiliation: University of Lyon
+      github: boukaridjida
     
   toc:
     - file: doc/01 - Introduction.md
