@@ -2,37 +2,94 @@
 title: Approches non paramétriques
 ---
 ## Algorithme des k plus proches voisins
-L'algorithme des k plus proches voisins (KNN) est une méthode d'apprentissage supervisé utilisée pour résoudre des problèmes de classification et de régression. Il fonctionne en identifiant les k instances du jeu de données d'entraînement les plus proches d'une nouvelle observation, puis en déterminant la sortie en fonction des valeurs de ces voisins.
+L'algorithme k-Nearest Neighbors (KNN) est une méthode d'apprentissage supervisé utilisée pour la classification et la régression. Il est basé sur le principe que des objets proches dans l’espace des caractéristiques ont tendance à appartenir à la même classe ou à avoir des valeurs similaires.
 
-Le principe fondamental du KNN est que des données similaires se trouvent à proximité les unes des autres dans l'espace des caractéristiques. Pour mesurer la proximité, l'algorithme utilise généralement des métriques de distance telles que la distance euclidienne ou la distance de Manhattan. Le choix du nombre de voisins, k, est crucial : une valeur trop petite peut rendre le modèle sensible au bruit, tandis qu'une valeur trop grande peut diluer la distinction entre les classes.
+KNN fonctionne en attribuant une classe à un point inconnu en fonction des  voisins les plus proches dans l’ensemble d’entraînement. La classification se fait par vote majoritaire (la classe la plus fréquente parmi les  voisins), tandis que la régression prend généralement la moyenne des valeurs des voisins.
 
-Avantages:
+Avantages :
 
--Simplicité et facilité d'implémentation : KNN est intuitif et ne nécessite pas de phase d'entraînement explicite, ce qui le rend facile à mettre en œuvre.
+-Simple à comprendre et à implémenter.
 
--Adaptabilité : L'algorithme s'ajuste facilement à de nouvelles données, car il conserve l'ensemble des données d'entraînement.
+-Aucune phase d’apprentissage : l’algorithme s’adapte directement aux nouvelles données.
 
-Inconvénients :
+-Performant sur des jeux de données de petite taille et bien séparables.
 
--Coût computationnel élevé : Pour chaque prédiction, KNN calcule la distance entre l'observation à prédire et toutes les observations du jeu de données, ce qui peut être lent pour de grands ensembles de données.
 
--Sensibilité aux données bruitées et aux caractéristiques non pertinentes : La performance de KNN peut être affectée si les données contiennent du bruit ou des caractéristiques non informatives.
+Inconvénients :
+
+-Sensible au choix de  et à la métrique de distance.
+
+-Lourd en calcul pour de grands ensembles de données, car il nécessite le calcul des distances à chaque prédiction.
+
+-Moins performant si les données contiennent beaucoup de dimensions non pertinentes.
+
+
+## Distance-Weighted k-Nearest Neighbors (DW-KNN)
+
+L'algorithme Distance-Weighted k-Nearest Neighbors (DW-KNN) est une variante du k-Nearest Neighbors (KNN).
+
+DW-KNN fonctionne en attribuant un poids aux voisins les plus proches en fonction de leur distance au point à prédire. Contrairement au KNN classique, où chaque voisin contribue également à la décision finale, DW-KNN accorde une importance plus grande aux voisins les plus proches en utilisant une fonction de pondération basée sur la distance, comme l'inverse de la distance () ou une fonction gaussienne.
+
+Avantages :
+
+-Donne plus d'importance aux voisins les plus proches, réduisant l'impact des points éloignés.
+
+-Améliore la précision dans les zones où les classes sont mélangées.
+
+-Peut mieux gérer les données bruitées par rapport au KNN classique.
+
+
+Inconvénients :
+
+-Plus coûteux en calcul, car il nécessite le calcul des poids pour chaque voisin.
+
+-Sensible au choix de la métrique de distance et au paramètre .
+
+-Moins efficace pour les ensembles de données très grands en raison du recalcul des distances pour chaque prédiction.
 
 ## Algorithme des plus proches voisins condensés:
-L'algorithme des plus proches voisins condensés ( en anglais Condensed Nearest Neighborest, CNN) est une méthode d'apprentissage supervisé visant à réduire la taille de l'ensemble d'entraînement pour les tâches de classification. Il sélectionne un sous-ensemble représentatif des données originales, permettant ainsi de diminuer les besoins en stockage et en calcul lors de la phase de classification.
 
-Le principe fondamental du CNN de conserver uniquement les échantillons essentiels pour définir les frontières de décision entre les classes. L'algorithme commence avec un sous-ensemble vide ou contenant un échantillon de chaque classe, puis parcourt l'ensemble d'entraînement : chaque point mal classé par le sous-ensemble actuel est ajouté à ce dernier. Ce processus itératif se poursuit jusqu'à ce que tous les points de l'ensemble d'entraînement soient correctement classés par le sous-ensemble condensé.
+L'algorithme Condensed Nearest Neighbor (CNN) est une autre variante du KNN utilisée pour réduire la taille de l’ensemble d’entraînement tout en conservant une bonne précision de classification. Il fait partie des méthodes de réduction de prototypes qui visent à alléger le coût de stockage et de calcul de KNN en sélectionnant un sous-ensemble représentatif des données.
 
-Avantages :
+CNN fonctionne en construisant un ensemble de prototypes à partir des données d’entraînement. Il commence avec un échantillon minimal et ajoute uniquement les points qui sont mal classés par cet échantillon. Ainsi, seule une fraction des données est conservée, ce qui permet d’accélérer les prédictions sans trop affecter la précision.
 
--Réduction de la complexité : En diminuant le nombre de points de référence, le CNN réduit les coûts de stockage et accélère le processus de classification.
+Avantages :
 
--Simplicité d'implémentation : L'algorithme est facile à mettre en œuvre et ne nécessite pas de paramètres complexes.
+-Réduit considérablement le nombre de points de référence, améliorant l'efficacité de KNN.
 
--Maintien de la performance : En conservant les points critiques pour la classification, le CNN préserve généralement la précision du classificateur.
+-Diminue le temps de calcul et l’espace mémoire requis.
 
-Inconvénients :
+-Permet d’éliminer les redondances dans l’ensemble d’entraînement.
 
--Sensibilité à l'ordre des données : Les résultats du CNN peuvent varier en fonction de l'ordre de présentation des échantillons, ce qui peut affecter la cohérence du sous-ensemble condensé.
 
--Efficacité limitée sur de grands ensembles de données : Pour des ensembles de données volumineux, le processus itératif peut être long et moins efficace.
+Inconvénients :
+
+-Peut ne pas bien fonctionner si les classes sont fortement entremêlées.
+
+-La phase de réduction peut être coûteuse en temps de calcul.
+
+-Risque de perdre des informations importantes si les prototypes sélectionnés ne sont pas bien représentatifs.
+
+## Locally Adaptive k-Nearest Neighbors (LA-KNN)
+
+
+L'algorithme Locally Adaptive k-Nearest Neighbors (LA-KNN) est  aussi une autre variante du KNN qui adapte dynamiquement le nombre de voisins  en fonction des caractéristiques locales des données. Contrairement au KNN classique où  est fixé pour toutes les observations, LA-KNN ajuste  en fonction de la densité locale des points, permettant une meilleure flexibilité dans les régions où les classes sont plus difficiles à séparer.
+
+LA-KNN fonctionne en augmentant  dans les zones de faible densité (où les points sont plus dispersés) et en le réduisant dans les zones denses pour éviter les erreurs de classification dues au bruit. L’adaptation peut se faire à l’aide de métriques comme l’entropie locale ou la variance des distances entre les voisins.
+
+Avantages :
+
+-Améliore la robustesse du KNN dans les zones de densité variable.
+
+-Réduit le risque d’overfitting dans les zones très peuplées et d’underfitting dans les zones clairsemées.
+
+-Peut mieux gérer les classes déséquilibrées en ajustant  selon la distribution locale.
+
+
+Inconvénients :
+
+-Plus complexe à implémenter que le KNN classique.
+
+-Nécessite un calcul supplémentaire pour ajuster , ce qui augmente le temps d’exécution.
+
+-Sensible au choix de la méthode d’adaptation et à la métrique de distance utilisée.
