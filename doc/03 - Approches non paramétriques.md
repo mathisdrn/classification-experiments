@@ -19,7 +19,7 @@ Inconvénients :
 -Sensibilité aux données bruitées et aux caractéristiques non pertinentes : La performance de KNN peut être affectée si les données contiennent du bruit ou des caractéristiques non informatives.
 
 ## Algorithme des plus proches voisins condensés:
-L'algorithme des plus proches voisins condensés ( en anglais Condensed Nearest Neighborest,CNN) est une méthode d'apprentissage supervisé visant à réduire la taille de l'ensemble d'entraînement pour les tâches de classification. Il sélectionne un sous-ensemble représentatif des données originales, permettant ainsi de diminuer les besoins en stockage et en calcul lors de la phase de classification.
+L'algorithme des plus proches voisins condensés ( en anglais Condensed Nearest Neighborest, CNN) est une méthode d'apprentissage supervisé visant à réduire la taille de l'ensemble d'entraînement pour les tâches de classification. Il sélectionne un sous-ensemble représentatif des données originales, permettant ainsi de diminuer les besoins en stockage et en calcul lors de la phase de classification.
 
 Le principe fondamental du CNN de conserver uniquement les échantillons essentiels pour définir les frontières de décision entre les classes. L'algorithme commence avec un sous-ensemble vide ou contenant un échantillon de chaque classe, puis parcourt l'ensemble d'entraînement : chaque point mal classé par le sous-ensemble actuel est ajouté à ce dernier. Ce processus itératif se poursuit jusqu'à ce que tous les points de l'ensemble d'entraînement soient correctement classés par le sous-ensemble condensé.
 

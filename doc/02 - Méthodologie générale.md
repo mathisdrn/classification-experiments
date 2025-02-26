@@ -131,6 +131,7 @@ Ces étapes de pré-traitement sont réalisées au sein d'une pipeline `scikit-l
 Plusieurs méthodes peuvent être appliquées en fonction des caractéristiques des données et des objectifs du modèle :
 
 -Sous-échantillonnage de la classe majoritaire : Réduction du nombre d'exemples de la classe dominante pour équilibrer la distribution des classes.
+
 -Sur-échantillonnage de la classe minoritaire : Duplication d'exemples supplémentaires pour renforcer la représentativité de la classe sous-représentée.
 
 -SMOTE (Synthetic Minority Over-sampling Technique) : Création d’exemples synthétiques en interpolant les points existants de la classe minoritaire.
