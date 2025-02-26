@@ -6,19 +6,22 @@ title: Méthodologie générale
 
 ## Notations et conventions
 
-## Définitions des notations mathématiques utilisées.
 
 ## Mesures de performance et critères d’évaluation
 
 Dans le cadre d'une classification binaire, on peut définir les termes suivants :
 
 Matrice de confusion
-: La matrice de confusion est une matrice 2x2 qui permet de visualiser les performances d'un algorithme de classification. Elle contient quatre éléments :
+: La matrice de confusion est une matrice 2x2 qui résume les prédictions du modèle par rapport aux valeurs réelles  et permet de visualiser les performances d'un algorithme de classification. Elle contient quatre éléments :
 
-- les vrais positifs (TP) : les emails correctement prédits comme spam
-- les faux positifs (FP) : les emails prédits comme spam alors qu'ils sont en réalité des ham
-- les vrais négatifs (TN) : les emails correctement prédits comme ham
-- les faux négatifs (FN) : les emails prédits comme ham alors qu'ils sont en réalité des spam
+- les vrais positifs (TP) : nombre de fois où le modèle prédit correctement la classe positive.
+
+- les faux positifs (FP) : nombre de fois où le modèle prédit la classe positive alors qu'elle est négative.
+- les vrais négatifs (TN) : nombre de fois où le modèle prédit la classe négative alors qu'elle est positive.
+
+- les faux négatifs (FN) : nombre de fois où le modèle prédit correctement la classe négative.
+
+À partir de cette matrice, plusieurs mesures sont calculées :
 
 Exactitude
 : L'exactitude (ou en anglais accuracy) mesure la proportion de prédictions correctes parmi toutes les prédictions effectuées par le modèle. Elle est définie par : $ \text{Exactitude} = \frac{TP + TN}{TP + TN + FP + FN} $
@@ -53,7 +56,6 @@ Courbe de précision-rappel
 Courbe ROC (Receiver Operating Characteristic)
 : La courbe ROC permet d'évaluer la performance d'un classificateur binaire, c’est-à-dire un système conçu pour diviser des éléments en deux catégories distinctes en fonction de certaines caractéristiques. Cette mesure est illustrée par une courbe qui affiche le taux de vrais positifs en fonction du taux de faux positifs. Elle permet d'observer la capacité du modèle à correctement distinguer les classes positives et négatives et de visualier l'arbitrage réalisé entre les taux de faux positifs et de vrais négatifs. De plus l'aire sous la courbe (AUC) permet de quantifier la performance du modèle : plus la valeur est proche de 1, plus le modèle est performant pour déterminer les classes positives et négatives.
 
-## Définitions (accuracy, F1-score, AUC-ROC, etc.).
 
 ## Explication de la pertinence des métriques choisies.
 
@@ -70,9 +72,9 @@ Le schéma ci-dessous illustre le processus complet d'entraînement des modèles
 
 Le jeu de données est divisé en deux parties : un ensemble d'entraînement et un ensemble de test. L'ensemble d'entraînement est utilisé pour entraîner les modèles et ajuster les hyperparamètres, tandis que l'ensemble de test est utilisé pour évaluer les performances des modèles sur des données non vues.
 
-## Validation croisée 
+### Validation croisée 
 
-La validation croisée (en anglais cross-validation) est une méthode d'évaluation qui consiste à diviser l'ensemble des données en plusieurs sous-ensembles appelés "plis" (folds). À chaque itération, un pli est utilisé pour tester le modèle, tandis que les autres plis servent à l'entraîner. Ce processus se répète pour chaque pli, de sorte que chaque sous-ensemble est utilisé à la fois pour l'entraînement et pour le test. 
+La validation croisée (en anglais cross-validation) est une méthode d'évaluation qui consiste à diviser l'ensemble des données  d'entraînement en plusieurs sous-ensembles appelés "plis" (folds). À chaque itération, un pli est utilisé pour tester le modèle, tandis que les autres plis servent à l'entraîner. Ce processus se répète pour chaque pli, de sorte que chaque sous-ensemble est utilisé à la fois pour l'entraînement et pour le test. 
 
 :::{image} ./assets/processus_validation_croisee.jpg
 :width: 550px
@@ -81,7 +83,7 @@ La validation croisée (en anglais cross-validation) est une méthode d'évaluat
 
 Cette méthode permet d'obtenir une évaluation plus robuste des performances du modèle en réduisant le risque de surajustement et en prenant en compte la variabilité des données. Elle est particulièrement utile lorsque l'ensemble de données est de petite taille ou que les classes sont déséquilibrées.
 
-## Stratégie d’optimisation des hyperparamètres
+#### Stratégie d’optimisation des hyperparamètres
 
 Les données d'entraînement sont utilisées pour ajuster les hyperparamètres des modèles. Les hyperparamètres sont des paramètres qui ne sont pas appris par le modèle lui-même, mais qui doivent être définis par l'utilisateur avant l'entraînement. Ils permettent de contrôler le comportement du modèle et d'optimiser ses performances.
 
@@ -101,14 +103,18 @@ Plusieurs solutions peuvent être mises en place pour pallier ces problèmes, co
 
 Il faut aussi noter que tous les modèles ne sont pas affectés de la même manière à ces problématiques, SVM et Naïve Bayes sont considérés comme plus robustes face à des classes déséquilibrées.
 
-### Prétraitement des données
+## Prétraitement des données
 
 Le pré-traitement des données répond à de nombreux objectifs :
 
-- Nettoyer les données inutiles, redondantes ou même nuisible pour l'entraînement du modèle
-- Transformer les données textuelles en données numériques exploitables par les algorithmes de machine learning. Ici en particulier, les données d'entrées du classifieur doivent être de même dimension.
-- Réduire la dimensionnalité des données pour améliorer les performances des modèles
-- Normaliser les données pour les rendre comparables et cohérentes
+- Nettoyer les données inutiles, redondantes ou même nuisible pour l'entraînement du modèle.
+-Gérer les valeurs manquantes en les imputant ou en supprimant les observations concernées.
+-Détecter et traiter les valeurs aberrantes pour éviter qu'elles influencent négativement le modèle.
+
+- Réduire la dimensionnalité des données pour améliorer les performances des modèles et limiter le surapprentissage.
+- Normaliser les données pour les rendre comparables et cohérentes et faciliter la convergence des algorithmes.
+-Encodage des variables catégoriques pour les rendre exploitables par les modèles
+
 - Équilibrer les classes pour éviter les biais de prédiction
 
 Ces étapes d'entraînement seront appliquées aux données d'entraînement lors de la phase d'entraînement du modèle et aux données de test lors de la phase d'évaluation du modèle.
@@ -121,4 +127,11 @@ Si on applique ces transformations sur l'ensemble des données (entraînement et
 
 Ces étapes de pré-traitement sont réalisées au sein d'une pipeline `scikit-learn` qui permet de chaîner les différentes étapes de traitement des données et de les appliquer de manière cohérente. Et ainsi de réduire le risque de fuites de données entre les jeux d'entraînement et de test.
 
-Ci-dessous sont présentées les différentes étapes de pré-traitement des données textuelles appliquées dans ce projet.
+## Techniques d'Équilibrage des Classes:
+Plusieurs méthodes peuvent être appliquées en fonction des caractéristiques des données et des objectifs du modèle :
+
+-Sous-échantillonnage de la classe majoritaire : Réduction du nombre d'exemples de la classe dominante pour équilibrer la distribution des classes.
+-Sur-échantillonnage de la classe minoritaire : Duplication d'exemples supplémentaires pour renforcer la représentativité de la classe sous-représentée.
+
+-SMOTE (Synthetic Minority Over-sampling Technique) : Création d’exemples synthétiques en interpolant les points existants de la classe minoritaire.
+-Pondération des classes : Attribution de coefficients plus élevés aux erreurs sur la classe minoritaire pour influencer la fonction de coût.
