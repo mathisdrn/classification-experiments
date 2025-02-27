@@ -8,7 +8,7 @@ L'algorithme AdaBoost (Adaptive Boosting) est une méthode d’apprentissage su
 
 AdaBoost fonctionne en attribuant un poids à chaque observation et en entraînant une série de classificateurs faibles de manière itérative. À chaque itération, les erreurs des modèles précédents sont amplifiées : les observations mal classées reçoivent un poids plus élevé pour que le modèle suivant se concentre davantage sur elles. La prédiction finale est obtenue par un vote pondéré des classificateurs.
 
-:::{image} ./assets/Schematic-diagram-of-AdaBoost-algorithm.png
+:::{image} assets\Schematic-diagram-of-AdaBoost-algorithm.png
 :width: 450px
 :alt: Pipeline of model training
 :::
