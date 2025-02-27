@@ -33,6 +33,15 @@ Dans cette étude, nous chercherons à répondre à plusieurs questions :
 - Comment optimiser les modèles pour améliorer leurs résultats ?  
 - Quels compromis doit-on faire entre précision, temps de calcul et complexité des modèles ?
 
+### Importance et motivation du projet
+
+Ce projet joue un rôle clé dans l’analyse des différentes méthodes de classification afin de mieux en comprendre les forces et les limites. Il vise à :  
+
+- Améliorer le choix des algorithmes en fonction du contexte et des caractéristiques des données.  
+- Étudier l’impact de techniques d’optimisation, comme la réduction de dimensions, l’ajustement des hyperparamètres et les méthodes d’échantillonnage.  
+- Explorer des variantes des algorithmes classiques afin d’améliorer la qualité de la classification.  
+- Proposer une méthodologie rigoureuse et reproductible pour évaluer objectivement les performances des modèles.
+
 
 ### Objectifs principaux du projet.
 
@@ -40,7 +49,92 @@ Ce projet a pour objectif de comparer et d’analyser différentes approches de 
 
 Ces méthodes seront appliquées à plusieurs secteurs. En **cybersécurité et communication numérique**, elles permettront d’améliorer la classification et la détection automatique des menaces. Dans l’**industrie agroalimentaire**, elles serviront à analyser la qualité des produits. Le **marketing et la finance** les utiliseront pour segmenter les clients et évaluer les risques financiers des emprunteurs. En **santé et biomédecine**, elles contribueront à la détection et au diagnostic de maladies, notamment des pathologies cardiaques et des troubles thyroïdiens. Enfin, en **vision par ordinateur et reconnaissance de formes**, elles permettront d’optimiser l’identification automatique d’objets et de structures complexes.
 
+
 ### Présentation des données
+```{list-table} Bases de données utilisées
+:header-rows: 1
+:widths: 20 10 30 40
+
+* - Nom de la base
+  - Nombre de lignes
+  - Type de classification
+  - Variables principales
+* - Spambase
+  - 4601
+  - Classification binaire (Spam / Non-Spam)
+  - Fréquence de mots spécifiques, présence de caractères spéciaux
+* - Wine Quality
+  - 6497
+  - Classification multiclasse (Qualité du vin)
+  - Acidité, pH, teneur en alcool, sucre résiduel
+* - Bank Marketing
+  - 45211
+  - Classification binaire (Souscription / Non)
+  - Âge, profession, état civil, solde bancaire, contact
+* - Pima Indians Diabetes
+  - 768
+  - Classification binaire (Diabète / Non)
+  - Glucose, pression sanguine, âge, indice de masse corporelle
+* - Heart Disease
+  - 303
+  - Classification binaire (Maladie cardiaque / Non)
+  - Âge, cholestérol, pression artérielle, fréquence cardiaque
+* - Newthyroid
+  - 215
+  - Classification binaire (Trouble thyroïdien / Non)
+  - TSH, T3, T4, âge, sexe
+* - Vehicle
+  - 846
+  - Classification multiclasse (Type de véhicule)
+  - Compacité, circularité, distance, variation d'intensité
+* - Glass
+  - 214
+  - Classification multiclasse (Type de verre)
+  - Indice de réfraction, sodium, magnésium, aluminium
+* - Segmentation
+  - 2310
+  - Classification multiclasse (Type d'objet)
+  - Textures, couleurs, intensités lumineuses
+* - Page-Blocks
+  - 5473
+  - Classification multiclasse (Type de bloc)
+  - Surface, compacité, alignement horizontal et vertical
+* - Auto-MPG
+  - 398
+  - Régression (Consommation de carburant)
+  - Nombre de cylindres, poids, puissance, année du modèle
+* - Balance Scale
+  - 625
+  - Classification multiclasse (Balance stable / instable)
+  - Poids gauche, poids droit, distance de pivot
+* - German Credit
+  - 1000
+  - Classification binaire (Crédit accepté / Non)
+  - Durée du crédit, âge, historique bancaire
+* - Bupa
+  - 345
+  - Classification binaire (Maladie hépatique / Non)
+  - Gamma-GT, alcool, enzyme du foie
+* - Ionosphere
+  - 351
+  - Classification binaire (Objet détecté / Non)
+  - Réflexion des signaux radar
+* - Sonar
+  - 208
+  - Classification binaire (Mine / Roche)
+  - Amplitude et fréquence des signaux acoustiques
+* - Yeast
+  - 1484
+  - Classification multiclasse (Type de protéine)
+  - Taille, charge électrique, hydrophobicité
+* - Abalone
+  - 4177
+  - Régression (Âge de l'abalone)
+  - Longueur, diamètre, hauteur, poids
+* - Australian Credit
+  - 690
+  - Classification binaire (Crédit accepté / Non)
+  - Revenus, historique de crédit, dettes
 
 ### Description des jeux de données utilisés (caractéristiques, taille, équilibre des classes, etc.).
 #### Caractéristiques des jeux de données :
