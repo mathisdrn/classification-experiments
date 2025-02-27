@@ -1,6 +1,46 @@
 ---
 title: Approches non linéaires
 ---
+## Decision Tree
+
+L'algorithme des arbres de décision (Decision Tree) est une méthode d'apprentissage supervisé utilisée pour la classification et la régression. Il repose sur une structure arborescente où chaque nœud représente une question sur une caractéristique des données, chaque branche correspond à une réponse possible, et chaque feuille donne une prédiction.
+
+ ### Principe de fonctionnement :
+
+1. Création de l'arbre : L'algorithme divise les données en fonction de la caractéristique qui maximise la séparation des classes ou minimise l'erreur de prédiction. Ce choix se fait souvent avec des mesures comme l'entropie (pour l'indice de Gini ou l'information gain en classification) ou l'erreur quadratique moyenne (en régression).
+
+
+2. Parcours de l'arbre : Pour prédire une nouvelle observation, on part de la racine et on suit les branches en fonction des valeurs des caractéristiques jusqu'à atteindre une feuille.
+
+
+3. Prédiction :
+
+Classification : L'étiquette de la classe la plus fréquente dans la feuille est assignée.
+
+Régression : La valeur moyenne des observations contenues dans la feuille est utilisée comme prédiction.
+
+:::{admonition} Définition : Critères de division en classification
+:class: note  
+1. Entropie (Information Gain)
+L’entropie mesure l’homogénéité d’un ensemble. Elle est définie par :
+$$ H(S) = - p_1 \log_2 p_1 - p_2 \log_2 p_2$$
+
+où :
+
+ et  sont les proportions des classes dans l’ensemble .
+
+Une entropie de 0 signifie que tous les éléments appartiennent à une seule classe (ensemble pur).
+
+Une entropie de 1 signifie que les classes sont réparties de manière égale (ensemble totalement incertain).
+
+
+Le gain d’information () est utilisé pour choisir la meilleure caractéristique à chaque division :
+
+$$ IG(S, A) = H(S) - \sum_{v \in V} \frac{|S_v|}{|S|} H(S_v) $$
+
+où  est le sous-ensemble des données ayant la valeur  pour l’attribut .
+
+:::
 
 ## AdaBoost (Adaptive Boosting)
 
@@ -31,7 +71,7 @@ Inconvénients :
 -Nécessite un bon choix de l’algorithme de base pour éviter l’overfitting.
 
 
-##Early Stopping AdaBoost
+## Early Stopping AdaBoost
 
 L'algorithme Early Stopping AdaBoost est une variante d'AdaBoost qui introduit un critère d’arrêt anticipé pour éviter l’overfitting. Dans la version classique d'AdaBoost, le modèle continue d'ajouter des classificateurs faibles jusqu'à atteindre un nombre prédéfini d’itérations, même si la performance commence à se dégrader sur les données de validation.
 
