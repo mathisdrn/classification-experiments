@@ -22,6 +22,30 @@ Inconvénients :
 - Peut être sensible aux valeurs aberrantes, nécessitant un nettoyage préalable des données.
 - Peut nécessiter une régularisation (comme la pénalisation L1 ou L2) pour éviter le surajustement dans le cas de nombreuses variables explicatives.
 
+
+## Régression Logistique avec Pénalisation Élastique
+
+L’Elastic Net Logistic Regression est une variante de la régression logistique classique qui intègre une régularisation mixte combinant les pénalités L1 (Lasso) et L2 (Ridge). Cette approche permet de contrôler la complexité du modèle, d’éviter le sur-apprentissage, et de sélectionner les variables les plus pertinentes.
+
+Avantages :
+
+- Modélise des relations complexes entre les variables explicatives.
+
+- Améliore la séparation des classes lorsque la frontière de décision n’est pas linéaire.
+
+
+Inconvénients :
+
+-Risque de sur-apprentissage si trop de termes polynomiaux sont ajoutés.
+
+-Difficulté d’interprétation car les coefficients sont moins intuitifs qu’en régression logistique simple.
+
+-Coût computationnel plus élevé surtout avec des degrés polynomiaux élevés.
+
+
+
+
+
 ## Support Vector Machine
 
 L'algorithme Support Vector Machine (SVM) est une méthode d'apprentissage supervisé utilisée pour résoudre des problèmes de régression et de classification. En découle deux implémentations algorithmiques : l'une pour la régression (SVR) et l'autre pour la classification (SVC).

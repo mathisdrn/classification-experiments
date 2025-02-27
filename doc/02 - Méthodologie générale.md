@@ -7,6 +7,9 @@ title: Méthodologie générale
 ## Notations et conventions
 
 
+### Présentation des symboles et conventions mathématiques utilisés.
+### Définition des variables principales.
+
 ## Mesures de performance et critères d’évaluation
 
 Dans le cadre d'une classification binaire, on peut définir les termes suivants :
