@@ -53,14 +53,104 @@ L’indice de Gini est minimal (0) lorsque l’ensemble est homogène et maxima
 De la même manière, on peut calculer la réduction d’impureté(gain d’information) avec l’indice de Gini :
 
 $$ \Delta Gini = Gini(S) - \sum_{v \in V} \frac{|S_v|}{|S|} Gini(S_v)$$
-
-
-
 :::
+
+## Forêt Aléatoire 
+
+L’algorithme Forêt Aléatoire(Random Forest en anglais) est une extension des arbres de décision, utilisée pour la classification et la régression. Il repose sur un principe d’apprentissage ensembliste (ensemble learning), combinant plusieurs arbres pour améliorer la robustesse et la précision des prédictions.
+
+Principe de fonctionnement :
+
+1. Construction d’une forêt d’arbres de décision
+
+L’algorithme génère plusieurs arbres en effectuant un échantillonnage aléatoire avec remise sur le jeu de données (bootstrap).
+
+À chaque division dans un arbre, un sous-ensemble aléatoire de caractéristiques est sélectionné pour éviter que tous les arbres se construisent de la même manière.
+
+
+
+2. Prédiction par agrégation des arbres
+
+Classification : Chaque arbre vote pour une classe, et la classe majoritaire est retenue (vote majoritaire).
+
+Régression : La prédiction finale est la moyenne des prédictions des différents arbres.
+
+:::{admonition} Note : Bootstrap
+:class: note  
+
+Le bootstrap est une méthode de rééchantillonnage avec remise qui crée plusieurs sous-ensembles à partir d’un même jeu de données. Dans Random Forest, il est utilisé pour entraîner chaque arbre sur un échantillon aléatoire, introduisant de la diversité et réduisant le sur-apprentissage. Cette technique améliore la robustesse et la généralisation du modèle.
+:::
+
+Avantages :
+
+-plus précis et généralisable sans risque de surapprentissage qu’un arbre unique.
+
+-Peu sensible aux valeurs aberrantes grâce à l’agrégation des arbres.
+
+-robustesse : Une petite variation dans les données n’impacte pas fortement le modèle.
+
+
+-Gère bien les données manquantes, les grands ensembles de données grâce à la sélection aléatoire des caractéristiques et il fonctionne bien même avec de nombreuses variables.
+
+
+Inconvénients :
+
+-Moins interprétable qu’un arbre unique, car le résultat final résulte de plusieurs modèles.
+
+-Temps de calcul plus long pour de grands ensembles de données.
+
+-Performances limitées sur des données très haute dimension par rapport à d’autres modèles avancés comme Adaboost, XGBoost ou LightGBM.
+ 
+##  Forêt Aléatoire Sensible au Coût
+
+L’algorithme Forêt Aléatoire Sensible au Coût (Cost-Sensitive Random Forest en anglais) est une adaptation du Random Forest conçue pour prendre en compte des coûts différents d’erreur lors de la classification. Il est particulièrement utile lorsque les classes sont déséquilibrées ou que certaines erreurs ont un impact plus important que d’autres, comme en détection de fraude ou en diagnostic médical.
+
+Principe de fonctionnement :
+
+1. Pondération des erreurs
+
+Contrairement au Random Forest classique, qui minimise simplement le taux d’erreur global, le Cost-Sensitive Random Forest attribue un coût à chaque type d’erreur.
+
+Une matrice de coûts est définie pour pénaliser différemment les erreurs en fonction de leur importance.
+
+
+
+2. Construction d’une forêt de décision pondérée
+
+Comme dans Random Forest, plusieurs arbres sont générés sur des échantillons bootstrap des données.
+
+À chaque division, le critère de sélection (comme l’indice de Gini ou l’entropie) est ajusté pour tenir compte des coûts des erreurs.
+
+
+
+3. Prédiction avec prise en compte des coûts
+
+ Plutôt que d’utiliser un vote majoritaire simple entre les arbres, la classe prédite est celle qui minimise le coût d’erreur attendu.
+
+Avantages :
+
+Meilleure prise en compte des déséquilibres de classe: Dans un problème où une classe est beaucoup moins fréquente que l’autre, Random Forest peut privilégier la classe majoritaire. En intégrant un coût plus élevé pour les erreurs sur la classe minoritaire, l’algorithme devient plus équitable.
+
+
+
+Plus adapté aux contextes où certaines erreurs coûtent plus cher que d’autres : Par exemple, dans une détection de fraude bancaire, une fausse alerte (prédire une fraude inexistante) est moins grave qu’un faux négatif (ne pas détecter une fraude réelle).
+
+
+Garde la robustesse du Random Forest tout en améliorant la gestion des erreurs critiques.
+
+
+Inconvénients :
+
+Nécessite de bien définir la matrice de coûts, ce qui peut être délicat en l’absence d’informations précises sur l’impact des erreurs.
+
+Peut être plus long à entraîner, car l’arbre doit ajuster ses critères de sélection en fonction des coûts d’erreur.
+
+Moins intuitif que le Random Forest standard, car les décisions ne sont plus basées uniquement sur des votes majoritaires.
+
 
 ## AdaBoost (Adaptive Boosting)
 
-L'algorithme AdaBoost (Adaptive Boosting) est une méthode d’apprentissage supervisé utilisée principalement pour la classification. Il appartient à la famille des méthodes d’ensemble (ensemble learning) et fonctionne en combinant plusieurs classificateurs faibles (souvent des arbres de décision de profondeur 1, appelés stumps) pour créer un modèle puissant et robuste.
+L'algorithme AdaBoost (Adaptive Boosting) est une méthode d’apprentissage supervisé utilisée principalement pour la classification. Il appartient à la famille des méthodes d’ensemble et fonctionne en combinant plusieurs classificateurs faibles (souvent des arbres de décision de profondeur 1, appelés stumps) pour créer un modèle puissant et robuste.
 
 AdaBoost fonctionne en attribuant un poids à chaque observation et en entraînant une série de classificateurs faibles de manière itérative. À chaque itération, les erreurs des modèles précédents sont amplifiées : les observations mal classées reçoivent un poids plus élevé pour que le modèle suivant se concentre davantage sur elles. La prédiction finale est obtenue par un vote pondéré des classificateurs.
 
