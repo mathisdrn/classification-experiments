@@ -6,7 +6,7 @@ title: Approches non linéaires
 
 L'algorithme des arbres de décision (Decision Tree) est une méthode d'apprentissage supervisé utilisée pour la classification et la régression. Il repose sur une structure arborescente où chaque nœud représente une question sur une caractéristique des données, chaque branche correspond à une réponse possible, et chaque feuille donne une prédiction.
 
-:::{image} ./../assets/image.png
+:::{image} ./../assets/decision tree.png
 :width: 550px
 :alt: decisiontree
 

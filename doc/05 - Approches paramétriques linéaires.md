@@ -45,6 +45,11 @@ Inconvénients :
 
 
 ## Support Vector Machine
+:::{image} ./../assets/svm.png
+:width: 550px
+:alt: svm
+
+:::
 
 L'algorithme Support Vector Machine (SVM) est une méthode d'apprentissage supervisé utilisée pour résoudre des problèmes de régression et de classification. En découle deux implémentations algorithmiques : l'une pour la régression (SVR) et l'autre pour la classification (SVC).
 
@@ -125,7 +130,7 @@ L’algorithme SMOTE fonctionne comme suit :
 
 Avantages : 
 
-- Évite que le SVM soit **biaisé** vers la classe majoritaire.  
+- Évite que le SVM soit biaisé vers la classe majoritaire.  
 - SMOTE permet de générer des données sans simple duplication.  
 - Sous-échantillonnage permet d’accélérer les calculs.  
 
