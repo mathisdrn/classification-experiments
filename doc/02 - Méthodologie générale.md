@@ -1,18 +1,98 @@
 ---
 title: Méthodologie générale
 ---
+## Protocole expérimental global
 
-## Méthodologie générale
+Le schéma ci-dessous illustre le processus complet d'entraînement des modèles, de la préparation des données à l'évaluation des performances.
 
-## Notations et conventions
+:::{image} ./../assets/echantillon_entrainement.jpg
+:width: 450px
+:alt: Pipeline of model training
+:::
+
+## Organisation des ensembles de données
+
+Le jeu de données est divisé en deux parties : un ensemble d'entraînement et un ensemble de test. L'ensemble d'entraînement est utilisé pour entraîner les modèles et ajuster les hyperparamètres, tandis que l'ensemble de test est utilisé pour évaluer les performances des modèles sur des données non vues.
+
+## Prétraitement des données
+
+Le pré-traitement des données répond à de nombreux objectifs :
+
+- Nettoyer les données inutiles, redondantes ou même nuisible pour l'entraînement du modèle.
+-Gérer les valeurs manquantes en les imputant ou en supprimant les observations concernées.
+-Détecter et traiter les valeurs aberrantes pour éviter qu'elles influencent négativement le modèle.
+
+- Réduire la dimensionnalité des données pour améliorer les performances des modèles et limiter le surapprentissage.
+- Normaliser les données pour les rendre comparables et cohérentes et faciliter la convergence des algorithmes.
+-Encodage des variables catégoriques pour les rendre exploitables par les modèles
+
+- Équilibrer les classes pour éviter les biais de prédiction
+:::{note}
+##### Classes déséquilibrées
+L'un des enjeux liés aux problèmes de classification est la présence de classes déséquilibrées. On parle de classes déséquilibrées lorsque les données d'entraînement contiennent un grand déséquilibre entre le nombre d'exemples de chaque classe.
+
+Ce déséquilibre peut poser plusieurs défis pour l'apprentissage automatique :
+- Apprentissage insuffisant : avec moins de données d’apprentissage pour la classe minoritaire, le modèle ne parvient pas à reconnaître efficacement les caractéristiques distinctives de la classe minoritaire.
+- Le modèle favorise la bonne classification de la classe majoritaire, car il minimise l'erreur globale en classant la plupart des exemples dans la classe majoritaire.
+- Les métriques de performance du modèle sur-représente la performance du modèle à évaluer la classe majoritaire.
+
+Plusieurs solutions peuvent être mises en place pour pallier ces problèmes, comme le sur-échantillonnage de la classe minoritaire, le sous-échantillonnage de la classe majoritaire, ou la création de données synthétiques à l'aide d'interpolation afin de rééquilibrer les classes. Certains modèles permettent aussi de donner plus de poids aux exemples de la classe minoritaire pour les rendre plus importants lors de l'apprentissage.
+
+Il faut aussi noter que tous les modèles ne sont pas affectés de la même manière à ces problématiques, SVM et Naïve Bayes sont considérés comme plus robustes face à des classes déséquilibrées.
+
+##### Techniques de rééquilibrage des classes
+Plusieurs méthodes peuvent être appliquées en fonction des caractéristiques des données et des objectifs du modèle :
+
+- Sous-échantillonnage de la classe majoritaire : Réduction du nombre d'exemples de la classe dominante pour équilibrer la distribution des classes.
+- Sur-échantillonnage de la classe minoritaire : Duplication d'exemples supplémentaires pour renforcer la représentativité de la classe sous-représentée.
+- SMOTE (Synthetic Minority Over-sampling Technique) : Création d’exemples synthétiques en interpolant les points existants de la classe minoritaire.
+-Pondération des classes : Attribution de coefficients plus élevés aux erreurs sur la classe minoritaire pour influencer la fonction de coût.
+:::
+Ces étapes d'entraînement seront appliquées aux données d'entraînement lors de la phase d'entraînement du modèle et aux données de test lors de la phase d'évaluation du modèle.
+
+:::{attention}
+Certaines étapes de pré-traitement utilisent des informations des données fournies pour appliquer des transformations au jeu de données. C'est par exemple le cas lorsque l'on normalise des valeurs numériques : on a besoin de connaître la moyenne et l'écart-type des données pour les normaliser. 
+
+Si on applique ces transformations sur l'ensemble des données (entraînement et test) avant de séparer les données, on risque de biaiser les résultats du modèle car il aura accès à des informations des données de test lors de l'entraînement. Il est donc important de séparer les données en deux jeux distincts : un jeu d'entraînement et un jeu de test. Le jeu d'entraînement est utilisé pour entraîner le modèle, tandis que le jeu de test est utilisé pour évaluer les performances du modèle sur des données non vues.
+:::
+
+Ces étapes de pré-traitement sont réalisées au sein d'une pipeline `scikit-learn` qui permet de chaîner les différentes étapes de traitement des données et de les appliquer de manière cohérente. Et ainsi de réduire le risque de fuites de données entre les jeux d'entraînement et de test.
 
 
-### Présentation des symboles et conventions mathématiques utilisés.
-### Définition des variables principales.
+### Validation croisée 
 
-## Mesures de performance et critères d’évaluation
+La validation croisée (en anglais cross-validation) est une méthode d'évaluation qui consiste à diviser l'ensemble des données d'entraînement en plusieurs sous-ensembles appelés "plis" (folds). À chaque itération, un pli est utilisé pour tester le modèle, tandis que les autres plis servent à l'entraîner. Ce processus se répète pour chaque pli, de sorte que chaque sous-ensemble est utilisé à la fois pour l'entraînement et pour le test. 
 
-Dans le cadre d'une classification binaire, on peut définir les termes suivants :
+:::{image} ./../assets/processus_validation_croisee.jpg
+:width: 550px
+:alt: K-Fold Cross Validation
+:::
+
+Cette méthode permet d'obtenir une évaluation plus robuste des performances du modèle en réduisant le risque de surajustement et en prenant en compte la variabilité des données. Elle est particulièrement utile lorsque l'ensemble de données est de petite taille ou que les classes sont déséquilibrées.
+
+#### Stratégie d’optimisation des hyperparamètres
+
+Les données de validation sont utilisées pour ajuster les hyperparamètres des modèles. Les hyperparamètres sont des paramètres qui ne sont pas appris par le modèle lui-même, mais qui doivent être définis par l'utilisateur avant l'entraînement. Ils permettent de contrôler le comportement du modèle et d'optimiser ses performances.
+
+On utilise la validation croisée pour évaluer les performances du modèle pour différentes valeurs des hyperparamètres, puis on sélectionne les valeurs qui maximisent les performances du modèle. Cette approche permet de trouver les hyperparamètres optimaux pour chaque modèle et d'obtenir des performances optimales.
+
+
+#### Recherche des hyperparamètres avec Grid Search
+
+Une méthode courante pour l'optimisation des hyperparamètres est la recherche sur grille (Grid Search). Cette technique consiste à définir un ensemble de valeurs possibles pour chaque hyperparamètre et à entraîner le modèle avec toutes les combinaisons possibles de ces valeurs. Chaque configuration est évaluée à l'aide de la validation croisée, et la meilleure combinaison d'hyperparamètres est sélectionnée en fonction des performances obtenues.
+
+
+:::{image} ./../assets/gidsearch.jpg
+:width: 450px
+:alt: Pipeline of model training
+:::
+
+L'avantage de la recherche sur grille est qu'elle garantit d'explorer systématiquement toutes les combinaisons définies, ce qui peut conduire à une configuration optimale du modèle. Cependant, cette méthode peut être coûteuse en temps de calcul, surtout lorsque le nombre d'hyperparamètres à optimiser est élevé. Pour pallier cet inconvénient, des techniques plus efficaces comme la recherche aléatoire (Random Search) ou l'optimisation bayésienne peuvent être utilisées.
+
+
+## Explication de la pertinence des métriques choisies.
+
+Une fois le modèle entraîné, il est important d’évaluer ses performances pour vérifier s’il fait de bonnes prédictions.Dans le cadre d'une classification binaire, on peut définir les termes suivants :
 
 Matrice de confusion
 : La matrice de confusion est une matrice 2x2 qui résume les prédictions du modèle par rapport aux valeurs réelles et permet de visualiser les performances d'un algorithme de classification. Elle contient quatre éléments :
@@ -59,121 +139,6 @@ Courbe de précision-rappel
 Courbe ROC (Receiver Operating Characteristic)
 : La courbe ROC permet d'évaluer la performance d'un classificateur binaire, c’est-à-dire un système conçu pour diviser des éléments en deux catégories distinctes en fonction de certaines caractéristiques. Cette mesure est illustrée par une courbe qui affiche le taux de vrais positifs en fonction du taux de faux positifs. Elle permet d'observer la capacité du modèle à correctement distinguer les classes positives et négatives et de visualier l'arbitrage réalisé entre les taux de faux positifs et de vrais négatifs. De plus l'aire sous la courbe (AUC) permet de quantifier la performance du modèle : plus la valeur est proche de 1, plus le modèle est performant pour déterminer les classes positives et négatives.
 
-### Critères de division en classification
-
-#### 1.Entropie
-
-L’entropie mesure l’homogénéité d’un ensemble. Elle est définie par :
-$$ H(S) = - p_1 \log_2 p_1 - p_2 \log_2 p_2$$
-
-où :
-
- et $ p_i $ sont les proportions des classes dans l’ensemble .
-
-Une entropie de 0 signifie que tous les éléments appartiennent à une seule classe (ensemble pur).
-
-Une entropie de 1 signifie que les classes sont réparties de manière égale (ensemble totalement incertain).
 
 
-Le gain d’information () est utilisé pour choisir la meilleure caractéristique qui permet la meilleu séparation des classes en mesurant la réduction d'entropie après chaque division, il est donné par la formule suivante:
 
-$$ IG(S, A) = H(S) - \sum_{v \in V} \frac{|S_v|}{|S|} H(S_v) $$
-
-où $S_v$ est le sous-ensemble des données ayant la valeur $v$ pour l’attribut .
-
-#### 2. Indice de Gini
-
-L'indice de Gini est une alternative à l'entropie et mesure l’impureté d’un ensemble :
-
-$$ Gini(S) = 1 - p_1^2 - p_2^2 $$
-
-où $p_i$ et sont les proportions des classes dans l’ensemble .
-L’indice de Gini est minimal (0) lorsque l’ensemble est homogène et maximal (0.5 en classification binaire) lorsque les classes sont équilibrées.
-
-De la même manière, on peut calculer la réduction d’impureté(gain d’information) avec l’indice de Gini :
-
-$$ \Delta Gini = Gini(S) - \sum_{v \in V} \frac{|S_v|}{|S|} Gini(S_v)$$
-
-### Bootstrap
- 
-
-Le bootstrap est une méthode de rééchantillonnage avec remise qui crée plusieurs sous-ensembles à partir d’un même jeu de données. Dans Random Forest, il est utilisé pour entraîner chaque arbre sur un échantillon aléatoire, introduisant de la diversité et réduisant le sur-apprentissage. Cette technique améliore la robustesse et la généralisation du modèle.
-
-
-## Explication de la pertinence des métriques choisies.
-
-## Protocole expérimental global
-
-Le schéma ci-dessous illustre le processus complet d'entraînement des modèles, de la préparation des données à l'évaluation des performances.
-
-:::{image} ./../assets/echantillon_entrainement.jpg
-:width: 450px
-:alt: Pipeline of model training
-:::
-
-## Organisation des ensembles de données
-
-Le jeu de données est divisé en deux parties : un ensemble d'entraînement et un ensemble de test. L'ensemble d'entraînement est utilisé pour entraîner les modèles et ajuster les hyperparamètres, tandis que l'ensemble de test est utilisé pour évaluer les performances des modèles sur des données non vues.
-
-### Validation croisée 
-
-La validation croisée (en anglais cross-validation) est une méthode d'évaluation qui consiste à diviser l'ensemble des données d'entraînement en plusieurs sous-ensembles appelés "plis" (folds). À chaque itération, un pli est utilisé pour tester le modèle, tandis que les autres plis servent à l'entraîner. Ce processus se répète pour chaque pli, de sorte que chaque sous-ensemble est utilisé à la fois pour l'entraînement et pour le test. 
-
-:::{image} ./../assets/processus_validation_croisee.jpg
-:width: 550px
-:alt: K-Fold Cross Validation
-:::
-
-Cette méthode permet d'obtenir une évaluation plus robuste des performances du modèle en réduisant le risque de surajustement et en prenant en compte la variabilité des données. Elle est particulièrement utile lorsque l'ensemble de données est de petite taille ou que les classes sont déséquilibrées.
-
-#### Stratégie d’optimisation des hyperparamètres
-
-Les données d'entraînement sont utilisées pour ajuster les hyperparamètres des modèles. Les hyperparamètres sont des paramètres qui ne sont pas appris par le modèle lui-même, mais qui doivent être définis par l'utilisateur avant l'entraînement. Ils permettent de contrôler le comportement du modèle et d'optimiser ses performances.
-
-On utilise la validation croisée pour évaluer les performances du modèle pour différentes valeurs des hyperparamètres, puis on sélectionne les valeurs qui maximisent les performances du modèle. Cette approche permet de trouver les hyperparamètres optimaux pour chaque modèle et d'obtenir des performances optimales.
-
-
-### Classes déséquilibrées
-
-L'un des enjeux liés aux problèmes de classification est la présence de classes déséquilibrées. On parle de classes déséquilibrées lorsque les données d'entraînement contiennent un grand déséquilibre entre le nombre d'exemples de chaque classe.
-
-Ce déséquilibre peut poser plusieurs défis pour l'apprentissage automatique :
-- Apprentissage insuffisant : avec moins de données d’apprentissage pour la classe minoritaire, le modèle ne parvient pas à reconnaître efficacement les caractéristiques distinctives de la classe minoritaire.
-- Le modèle favorise la bonne classification de la classe majoritaire, car il minimise l'erreur globale en classant la plupart des exemples dans la classe majoritaire.
-- Les métriques de performance du modèle sur-représente la performance du modèle à évaluer la classe majoritaire.
-
-Plusieurs solutions peuvent être mises en place pour pallier ces problèmes, comme le sur-échantillonnage de la classe minoritaire, le sous-échantillonnage de la classe majoritaire, ou la création de données synthétiques à l'aide d'interpolation afin de rééquilibrer les classes. Certains modèles permettent aussi de donner plus de poids aux exemples de la classe minoritaire pour les rendre plus importants lors de l'apprentissage.
-
-Il faut aussi noter que tous les modèles ne sont pas affectés de la même manière à ces problématiques, SVM et Naïve Bayes sont considérés comme plus robustes face à des classes déséquilibrées.
-
-## Prétraitement des données
-
-Le pré-traitement des données répond à de nombreux objectifs :
-
-- Nettoyer les données inutiles, redondantes ou même nuisible pour l'entraînement du modèle.
--Gérer les valeurs manquantes en les imputant ou en supprimant les observations concernées.
--Détecter et traiter les valeurs aberrantes pour éviter qu'elles influencent négativement le modèle.
-
-- Réduire la dimensionnalité des données pour améliorer les performances des modèles et limiter le surapprentissage.
-- Normaliser les données pour les rendre comparables et cohérentes et faciliter la convergence des algorithmes.
--Encodage des variables catégoriques pour les rendre exploitables par les modèles
-
-- Équilibrer les classes pour éviter les biais de prédiction
-
-Ces étapes d'entraînement seront appliquées aux données d'entraînement lors de la phase d'entraînement du modèle et aux données de test lors de la phase d'évaluation du modèle.
-
-:::{attention}
-Certaines étapes de pré-traitement utilisent des informations des données fournies pour appliquer des transformations au jeu de données. C'est par exemple le cas lorsque l'on normalise des valeurs numériques : on a besoin de connaître la moyenne et l'écart-type des données pour les normaliser. 
-
-Si on applique ces transformations sur l'ensemble des données (entraînement et test) avant de séparer les données, on risque de biaiser les résultats du modèle car il aura accès à des informations des données de test lors de l'entraînement. Il est donc important de séparer les données en deux jeux distincts : un jeu d'entraînement et un jeu de test. Le jeu d'entraînement est utilisé pour entraîner le modèle, tandis que le jeu de test est utilisé pour évaluer les performances du modèle sur des données non vues.
-:::
-
-Ces étapes de pré-traitement sont réalisées au sein d'une pipeline `scikit-learn` qui permet de chaîner les différentes étapes de traitement des données et de les appliquer de manière cohérente. Et ainsi de réduire le risque de fuites de données entre les jeux d'entraînement et de test.
-
-## Techniques de rééquilibrage des classes
-Plusieurs méthodes peuvent être appliquées en fonction des caractéristiques des données et des objectifs du modèle :
-
-- Sous-échantillonnage de la classe majoritaire : Réduction du nombre d'exemples de la classe dominante pour équilibrer la distribution des classes.
-- Sur-échantillonnage de la classe minoritaire : Duplication d'exemples supplémentaires pour renforcer la représentativité de la classe sous-représentée.
-- SMOTE (Synthetic Minority Over-sampling Technique) : Création d’exemples synthétiques en interpolant les points existants de la classe minoritaire.
--Pondération des classes : Attribution de coefficients plus élevés aux erreurs sur la classe minoritaire pour influencer la fonction de coût.

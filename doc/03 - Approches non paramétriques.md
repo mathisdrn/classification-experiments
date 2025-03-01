@@ -19,7 +19,7 @@ Chaque point est affecté au cluster dont le centroïde est le plus proche, en
 $$d(x_i, c_j) = \sqrt{\sum_{d=1}^{D} (x_{id} - c_{jd})^2}$$
 
 - $x_i$ est un point de données.
- - $c_j$ est le centroïde du cluster 👦j👦.
+ - $c_j$ est le centroïde du cluster $j$.
  - $D$ est le nombre de dimensions des données.
 
 3. Mise à jour des centroïdes :

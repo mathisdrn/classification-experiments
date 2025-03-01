@@ -18,6 +18,41 @@ L'algorithme des arbres de décision (Decision Tree) est une méthode d'appren
     
     - Régression : La valeur moyenne des observations contenues dans la feuille est utilisée comme prédiction.
 
+### Critères de division en classification
+
+#### 1.Entropie
+
+L’entropie mesure l’homogénéité d’un ensemble. Elle est définie par :
+$$ H(S) = - p_1 \log_2 p_1 - p_2 \log_2 p_2$$
+
+où :
+
+ et $ p_i $ sont les proportions des classes dans l’ensemble .
+
+Une entropie de 0 signifie que tous les éléments appartiennent à une seule classe (ensemble pur).
+
+Une entropie de 1 signifie que les classes sont réparties de manière égale (ensemble totalement incertain).
+
+
+Le gain d’information () est utilisé pour choisir la meilleure caractéristique qui permet la meilleu séparation des classes en mesurant la réduction d'entropie après chaque division, il est donné par la formule suivante:
+
+$$ IG(S, A) = H(S) - \sum_{v \in V} \frac{|S_v|}{|S|} H(S_v) $$
+
+où $S_v$ est le sous-ensemble des données ayant la valeur $v$ pour l’attribut .
+
+#### 2. Indice de Gini
+
+L'indice de Gini est une alternative à l'entropie et mesure l’impureté d’un ensemble :
+
+$$ Gini(S) = 1 - p_1^2 - p_2^2 $$
+
+où $p_i$ et sont les proportions des classes dans l’ensemble .
+L’indice de Gini est minimal (0) lorsque l’ensemble est homogène et maximal (0.5 en classification binaire) lorsque les classes sont équilibrées.
+
+De la même manière, on peut calculer la réduction d’impureté(gain d’information) avec l’indice de Gini :
+
+$$ \Delta Gini = Gini(S) - \sum_{v \in V} \frac{|S_v|}{|S|} Gini(S_v)$$
+
 ## Forêt Aléatoire 
 
 L’algorithme Forêt Aléatoire(Random Forest en anglais) est une extension des arbres de décision, utilisée pour la classification et la régression. Il repose sur un principe d’apprentissage ensembliste (ensemble learning), combinant plusieurs arbres pour améliorer la robustesse et la précision des prédictions.
@@ -33,6 +68,10 @@ L'algorithme génère plusieurs arbres en effectuant un échantillonnage aléato
 - Classification : Chaque arbre vote pour une classe, et la classe majoritaire est retenue (vote majoritaire).
 - Régression : La prédiction finale est la moyenne des prédictions des différents arbres.
 
+### Bootstrap
+ 
+
+Le bootstrap est une méthode de rééchantillonnage avec remise qui crée plusieurs sous-ensembles à partir d’un même jeu de données. Dans Random Forest, il est utilisé pour entraîner chaque arbre sur un échantillon aléatoire, introduisant de la diversité et réduisant le sur-apprentissage. Cette technique améliore la robustesse et la généralisation du modèle.
 ### Avantages
 
 - Plus précis et généralisable sans risque de surapprentissage qu'un arbre unique

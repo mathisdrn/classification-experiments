@@ -24,7 +24,7 @@ Il existe de nombreux algorithmes de classification, chacun ayant ses propres av
 - **Approches non linéaires** : ces modèles sont capables de modéliser des relations non linéaires entre les caractéristiques et la classe cible. Ils utilisent des transformations non linéaires des caractéristiques pour apprendre des frontières de décision complexes. Les réseaux de neurones et les machines à vecteurs de support avec noyaux non linéaires sont des exemples d'approches non linéaires.
 
 
-### Problématique principale abordée.
+### Problématique principale abordée
 La classification est une tâche importante en machine learning, mais chaque algorithme a ses propres forces et faiblesses. L’un des principaux défis est donc d’identifier la méthode la plus efficace en fonction des caractéristiques des données.  
 
 Dans cette étude, nous chercherons à répondre à plusieurs questions :  
@@ -43,14 +43,14 @@ Ce projet joue un rôle clé dans l’analyse des différentes méthodes de clas
 - Proposer une méthodologie rigoureuse et reproductible pour évaluer objectivement les performances des modèles.
 
 
-### Objectifs principaux du projet.
+### Objectifs principaux du projet
 
 Ce projet a pour objectif de comparer et d’analyser différentes approches de classification afin de mieux comprendre leur efficacité et leurs limites. Pour cela, nous étudierons trois grandes catégories d’algorithmes : les méthodes non paramétriques, les approches paramétriques linéaires et les approches non linéaires. L’évaluation de ces modèles se fera selon plusieurs critères, tels que la précision des résultats, le temps d’apprentissage et leur capacité à s’adapter aux variations des données. L’objectif est d’identifier la famille d’algorithmes la plus performante et d’optimiser les modèles en fonction des types de données et des domaines d’application.  
 
 Ces méthodes seront appliquées à plusieurs secteurs. En **cybersécurité et communication numérique**, elles permettront d’améliorer la classification et la détection automatique des menaces. Dans l’**industrie agroalimentaire**, elles serviront à analyser la qualité des produits. Le **marketing et la finance** les utiliseront pour segmenter les clients et évaluer les risques financiers des emprunteurs. En **santé et biomédecine**, elles contribueront à la détection et au diagnostic de maladies, notamment des pathologies cardiaques et des troubles thyroïdiens. Enfin, en **vision par ordinateur et reconnaissance de formes**, elles permettront d’optimiser l’identification automatique d’objets et de structures complexes.
 
 
-### Description des jeux de données utilisés (caractéristiques, taille, équilibre des classes, etc.).
+### Description des jeux de données utilisés
 
 #### Sources des jeux de données
 Les jeux de données utilisés dans cette étude proviennent principalement de sources académiques et ouvertes, souvent intégrées dans des bibliothèques de R et Python, garantissant ainsi leur qualité et leur diversité pour l’évaluation des algorithmes de classification. Le UCI Machine Learning Repository constitue l’une des principales références, hébergeant des bases largement utilisées en machine learning, telles que Spambase, Wine Quality, Bank Marketing, Pima Indians Diabetes et Heart Disease. Par ailleurs, plusieurs jeux de données sont directement accessibles via les packages de RStudio disponibles sur le CRAN, comme datasets (avec iris et mtcars), MASS (qui inclut Boston housing et Pima Indians Diabetes), mlbench (contenant Glass, Sonar, Ionosphere), et ElemStatLearn. La plateforme Kaggle constitue également une source précieuse pour le téléchargement de jeux de données sous format CSV, facilitant leur exploitation dans RStudio. En complément, OpenML permet l’importation de jeux de données directement dans R via le package OpenML, tandis que d’autres bases sont accessibles à partir de StatLib (Carnegie Mellon University) et de référentiels institutionnels tels que Eurostat et la Banque mondiale, qui proposent des bases économiques exploitables via les packages eurostat et WDI. Enfin, des jeux de données structurés issus du Tidyverse, comme diamonds et gapminder, offrent des ressources supplémentaires pour l’analyse de données dans R.
@@ -85,7 +85,7 @@ Les jeux de données utilisés dans cette étude proviennent principalement de s
 :::
 
 
-### Prétraitement éventuel des données (normalisation, gestion des valeurs manquantes).
+### Prétraitement éventuel des données (normalisation, gestion des valeurs manquantes):
 
 +++ {"part": "data_availability"}
 L'ensemble des fichiers et données relatif à ce travail sont disponible en accès libre sur le [dépot GitHub](https://github.com/mathisdrn/classification-experiments) sous licence MIT.
