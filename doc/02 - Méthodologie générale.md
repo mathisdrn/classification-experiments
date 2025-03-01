@@ -15,7 +15,7 @@ title: Méthodologie générale
 Dans le cadre d'une classification binaire, on peut définir les termes suivants :
 
 Matrice de confusion
-: La matrice de confusion est une matrice 2x2 qui résume les prédictions du modèle par rapport aux valeurs réelles  et permet de visualiser les performances d'un algorithme de classification. Elle contient quatre éléments :
+: La matrice de confusion est une matrice 2x2 qui résume les prédictions du modèle par rapport aux valeurs réelles et permet de visualiser les performances d'un algorithme de classification. Elle contient quatre éléments :
 
 - les vrais positifs (TP) : nombre de fois où le modèle prédit correctement la classe positive.
 
@@ -61,7 +61,7 @@ Courbe ROC (Receiver Operating Characteristic)
 
 ### Critères de division en classification
 
- #### 1.Entropie
+#### 1.Entropie
 
 L’entropie mesure l’homogénéité d’un ensemble. Elle est définie par :
 $$ H(S) = - p_1 \log_2 p_1 - p_2 \log_2 p_2$$
@@ -87,7 +87,7 @@ L'indice de Gini est une alternative à l'entropie et mesure l’impureté d�
 
 $$ Gini(S) = 1 - p_1^2 - p_2^2 $$
 
-où $p_i$  et  sont les proportions des classes dans l’ensemble .
+où $p_i$ et sont les proportions des classes dans l’ensemble .
 L’indice de Gini est minimal (0) lorsque l’ensemble est homogène et maximal (0.5 en classification binaire) lorsque les classes sont équilibrées.
 
 De la même manière, on peut calculer la réduction d’impureté(gain d’information) avec l’indice de Gini :
@@ -117,7 +117,7 @@ Le jeu de données est divisé en deux parties : un ensemble d'entraînement et 
 
 ### Validation croisée 
 
-La validation croisée (en anglais cross-validation) est une méthode d'évaluation qui consiste à diviser l'ensemble des données  d'entraînement en plusieurs sous-ensembles appelés "plis" (folds). À chaque itération, un pli est utilisé pour tester le modèle, tandis que les autres plis servent à l'entraîner. Ce processus se répète pour chaque pli, de sorte que chaque sous-ensemble est utilisé à la fois pour l'entraînement et pour le test. 
+La validation croisée (en anglais cross-validation) est une méthode d'évaluation qui consiste à diviser l'ensemble des données d'entraînement en plusieurs sous-ensembles appelés "plis" (folds). À chaque itération, un pli est utilisé pour tester le modèle, tandis que les autres plis servent à l'entraîner. Ce processus se répète pour chaque pli, de sorte que chaque sous-ensemble est utilisé à la fois pour l'entraînement et pour le test. 
 
 :::{image} ./../assets/processus_validation_croisee.jpg
 :width: 550px
@@ -170,12 +170,10 @@ Si on applique ces transformations sur l'ensemble des données (entraînement et
 
 Ces étapes de pré-traitement sont réalisées au sein d'une pipeline `scikit-learn` qui permet de chaîner les différentes étapes de traitement des données et de les appliquer de manière cohérente. Et ainsi de réduire le risque de fuites de données entre les jeux d'entraînement et de test.
 
-## Techniques d'Équilibrage des Classes:
+## Techniques de rééquilibrage des classes
 Plusieurs méthodes peuvent être appliquées en fonction des caractéristiques des données et des objectifs du modèle :
 
--Sous-échantillonnage de la classe majoritaire : Réduction du nombre d'exemples de la classe dominante pour équilibrer la distribution des classes.
-
--Sur-échantillonnage de la classe minoritaire : Duplication d'exemples supplémentaires pour renforcer la représentativité de la classe sous-représentée.
-
--SMOTE (Synthetic Minority Over-sampling Technique) : Création d’exemples synthétiques en interpolant les points existants de la classe minoritaire.
+- Sous-échantillonnage de la classe majoritaire : Réduction du nombre d'exemples de la classe dominante pour équilibrer la distribution des classes.
+- Sur-échantillonnage de la classe minoritaire : Duplication d'exemples supplémentaires pour renforcer la représentativité de la classe sous-représentée.
+- SMOTE (Synthetic Minority Over-sampling Technique) : Création d’exemples synthétiques en interpolant les points existants de la classe minoritaire.
 -Pondération des classes : Attribution de coefficients plus élevés aux erreurs sur la classe minoritaire pour influencer la fonction de coût.
