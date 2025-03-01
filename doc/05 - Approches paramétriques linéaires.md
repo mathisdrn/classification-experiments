@@ -2,14 +2,15 @@
 title: Approches paramétriques linéaires
 ---
 
-## Introduction
-
-Décrire ce que sont les approches paramètriques linéaires
-
 ## Régression logistique
 
 La régression logistique est une méthode d'apprentissage supervisé largement utilisée pour la classification binaire. Elle modélise la probabilité qu'une observation appartienne à une des deux classes en utilisant une fonction logistique (ou sigmoïde) pour transformer une combinaison linéaire des caractéristiques en une probabilité. La fonction sigmoïde prend une valeur comprise entre 0 et 1, ce qui permet de prédire l'appartenance à une classe en appliquant un seuil, généralement 0,5. L'objectif de l'algorithme est d'ajuster les coefficients de la combinaison linéaire en maximisant la vraisemblance des observations données.
 
+:::{image} ./../assets/logistique regression.png
+
+:width: 550px
+:alt: logistique_regression
+:::
 Avantages :
 
 - Facile à interpréter grâce aux coefficients qui indiquent l'influence des variables explicatives.
