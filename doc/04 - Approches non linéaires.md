@@ -93,14 +93,15 @@ L'algorithme génère plusieurs arbres en effectuant un échantillonnage aléato
  
 
 Le bootstrap est une méthode de rééchantillonnage avec remise qui crée plusieurs sous-ensembles à partir d’un même jeu de données. Dans Random Forest, il est utilisé pour entraîner chaque arbre sur un échantillon aléatoire, introduisant de la diversité et réduisant le sur-apprentissage. Cette technique améliore la robustesse et la généralisation du modèle.
-### Avantages
+
+ Avantages
 
 - Plus précis et généralisable sans risque de surapprentissage qu'un arbre unique
 - Peu sensible aux valeurs aberrantes grâce à l'agrégation des arbres
 - Robustesse : Une petite variation dans les données n'impacte pas fortement le modèle
 - Gère bien les données manquantes et les grands ensembles de données
 
-### Inconvénients
+ Inconvénients
 
 - Moins interprétable qu'un arbre unique
 - Temps de calcul plus long pour de grands ensembles de données
@@ -145,13 +146,13 @@ $ C_{ij} > 0$ pour $𝑖≠𝑗$: Il y a un coût lorsqu'une observation de la c
 
  Plutôt que d’utiliser un vote majoritaire simple entre les arbres, la classe prédite est celle qui minimise le coût d’erreur attendu.Cette modification réduit le biais envers les classes majoritaires et améliore la prise en compte des classes minoritaires.
 
-### Avantages
+ Avantages
 
 - Meilleure prise en compte des déséquilibres de classe: Dans un problème où une classe est beaucoup moins fréquente que l’autre, Random Forest peut privilégier la classe majoritaire. En intégrant un coût plus élevé pour les erreurs sur la classe minoritaire, l’algorithme devient plus équitable.
 - Plus adapté aux contextes où certaines erreurs coûtent plus cher que d’autres : Par exemple, dans une détection de fraude bancaire, une fausse alerte (prédire une fraude inexistante) est moins grave qu’un faux négatif (ne pas détecter une fraude réelle).
 - Garde la robustesse du Random Forest tout en améliorant la gestion des erreurs critiques.
 
-### Inconvénients
+ Inconvénients
 
 - Nécessite de bien définir la matrice de coûts, ce qui peut être délicat en l’absence d’informations précises sur l’impact des erreurs.
 - Peut être plus long à entraîner, car l’arbre doit ajuster ses critères de sélection en fonction des coûts d’erreur.
@@ -168,13 +169,13 @@ AdaBoost fonctionne en attribuant un poids à chaque observation et en entraî
 :alt: Pipeline of model training
 :::
 
-### Avantages
+ Avantages
 
 - Améliore la précision en combinant plusieurs modèles faibles.
 - Fonctionne bien sur des données bruitées et complexes.
 - Peut être utilisé avec différents modèles de base (arbres, SVM, etc.).
 
-### Inconvénients
+ Inconvénients
 
 - Sensible aux données bruitées et aux outliers, qui peuvent être sur-appris.
 - Peut être lent si le nombre d’itérations est élevé.
@@ -203,13 +204,13 @@ Cette modification réduit le risque de sur-apprentissage et accélère l’entr
 
 - **Condition d’arrêt**: Si, à l’itération $t^* + 1$, la perte $L_{\text{val}} $ augmente par rapport à l’itération $t^*$, cela signifie que le modèle commence à sur-apprendre les données d'entraînement, donc l'entraînement est stoppé pour éviter l’overfitting.
 
-### Avantages
+ Avantages
 
 - Réduit le risque d'overfitting en arrêtant l'entraînement au bon moment.
 - Diminue le temps d'exécution en évitant des itérations inutiles.
 - Peut améliorer la performance sur des données bruitées.
 
-### Inconvénients
+ Inconvénients
 
 - Nécessite un ensemble de validation pour surveiller la performance.
 - Le choix du critère d'arrêt peut être délicat et nécessite des ajustements.
