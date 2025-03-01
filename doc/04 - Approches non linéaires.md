@@ -6,6 +6,11 @@ title: Approches non linéaires
 
 L'algorithme des arbres de décision (Decision Tree) est une méthode d'apprentissage supervisé utilisée pour la classification et la régression. Il repose sur une structure arborescente où chaque nœud représente une question sur une caractéristique des données, chaque branche correspond à une réponse possible, et chaque feuille donne une prédiction.
 
+:::{image} ./../assets/image.png
+:width: 550px
+:alt: decisiontree
+
+:::
 ### Principe de fonctionnement
 
 1. Création de l'arbre : L'algorithme divise les données en fonction de la caractéristique qui maximise la séparation des classes ou minimise l'erreur de prédiction. Ce choix se fait souvent avec des mesures comme l'entropie (pour l'indice de Gini ou l'information gain en classification) ou l'erreur quadratique moyenne (en régression).
@@ -54,7 +59,10 @@ De la même manière, on peut calculer la réduction d’impureté(gain d’
 $$ \Delta Gini = Gini(S) - \sum_{v \in V} \frac{|S_v|}{|S|} Gini(S_v)$$
 
 ## Forêt Aléatoire 
-
+:::{image} ./../assets/randomforest.png
+:width: 550px
+:alt: randomforest
+:::
 L’algorithme Forêt Aléatoire(Random Forest en anglais) est une extension des arbres de décision, utilisée pour la classification et la régression. Il repose sur un principe d’apprentissage ensembliste (ensemble learning), combinant plusieurs arbres pour améliorer la robustesse et la précision des prédictions.
 
 ### 1. Construction d'une forêt d'arbres de décision
