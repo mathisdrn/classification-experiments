@@ -6,34 +6,44 @@ L'algorithme k-Nearest Neighbors (KNN) est une méthode d'apprentissage supervi
 
 KNN fonctionne en attribuant une classe à un point inconnu en fonction des voisins les plus proches dans l’ensemble d’entraînement. La classification se fait par vote majoritaire (la classe la plus fréquente parmi les voisins), tandis que la régression prend généralement la moyenne des valeurs des voisins.
 
-Principe de fonctionnement :
-
-- 1.Initialisation :
-
-Sélectionner aléatoirement  centroïdes parmi les points de données.
-
-- 2. Assignation des points aux clusters :
-
-Chaque point est affecté au cluster dont le centroïde est le plus proche, en utilisant la distance euclidienne :
-
-$$d(x_i, c_j) = \sqrt{\sum_{d=1}^{D} (x_{id} - c_{jd})^2}$$
-
-- $x_i$ est un point de données.
- - $c_j$ est le centroïde du cluster $j$.
- - $D$ est le nombre de dimensions des données.
-
-3. Mise à jour des centroïdes :
-
-Une fois tous les points assignés, chaque centroïde est recalculé comme la moyenne des points de son cluster :
 
 
-$$c_j = \frac{1}{N_j} \sum_{x_i \in C_j} x_i$$
+Principe de fonctionnement de KNN :
 
-- $N_j$ est le nombre de points appartenant au cluster $C_j$.
+L’algorithme des k plus proches voisins fonctionne en trois étapes principales :
 
-Les étapes (2) Assignation et (3) Mise à jour sont répétées jusqu'à convergence, c'est-à-dire : Les centroïdes ne changent plus ou un critère d'arrêt est atteint (ex. un nombre maximal d'itérations).
+1. Choix du nombre de voisins (k) :
+L’utilisateur définit la valeur de k, qui représente le nombre de voisins à considérer pour classer un nouvel exemple. Ce choix influence la performance de l’algorithme.
 
 
+### Sélection de l’hyperparamètre k
+
+L'hyperparamètre k représente le nombre de voisins pris en compte pour déterminer la classe ou la valeur d’un point donné. Un choix trop faible de k peut rendre l’algorithme sensible au bruit et aux valeurs aberrantes, tandis qu’un k trop grand risque de lisser trop les résultats, réduisant la capacité du modèle à capturer des motifs locaux.Lne méthode la plus courante pour choisir k consiste à tester plusieurs valeurs et à sélectionner celle offrant la meilleure performance via validation croisée.
+
+
+2. Calcul des distances :
+Pour classer un nouvel exemple, l’algorithme mesure la distance entre ce point et tous les points de l’ensemble d’entraînement. La distance la plus couramment utilisée est la distance euclidienne, définie par :
+
+$$ d(x_i, x_j) = \sqrt{\sum_{d=1}^{D} (x_{id} - x_{jd})^2} $$
+
+ $x_i$ est le point à classer.
+
+ $x_j$est un point de l’ensemble d’entraînement.
+
+ $D$ est le nombre de dimensions des données.
+
+
+D’autres mesures de distance, comme la distance de Manhattan ou de Minkowski, peuvent être utilisées selon le contexte.
+
+
+3. Attribution de la classe ou de la valeur :
+Une fois les k plus proches voisins identifiés, le vote majoritaire est utilisé, et le point est assigné à la classe la plus fréquente parmi les k voisins.
+
+
+:::{image} ./../assets/knn.webp
+:width: 550px
+:alt: knn
+:::
 Avantages :
 
 - Simple à comprendre et à implémenter.
