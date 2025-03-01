@@ -44,8 +44,6 @@ Inconvénients :
 
 
 
-
-
 ## Support Vector Machine
 
 L'algorithme Support Vector Machine (SVM) est une méthode d'apprentissage supervisé utilisée pour résoudre des problèmes de régression et de classification. En découle deux implémentations algorithmiques : l'une pour la régression (SVR) et l'autre pour la classification (SVC).

@@ -6,6 +6,34 @@ L'algorithme k-Nearest Neighbors (KNN) est une méthode d'apprentissage supervi
 
 KNN fonctionne en attribuant une classe à un point inconnu en fonction des voisins les plus proches dans l’ensemble d’entraînement. La classification se fait par vote majoritaire (la classe la plus fréquente parmi les voisins), tandis que la régression prend généralement la moyenne des valeurs des voisins.
 
+Principe de fonctionnement :
+
+- 1.Initialisation :
+
+Sélectionner aléatoirement  centroïdes parmi les points de données.
+
+- 2. Assignation des points aux clusters :
+
+Chaque point est affecté au cluster dont le centroïde est le plus proche, en utilisant la distance euclidienne :
+
+$$d(x_i, c_j) = \sqrt{\sum_{d=1}^{D} (x_{id} - c_{jd})^2}$$
+
+- $x_i$ est un point de données.
+ - $c_j$ est le centroïde du cluster 👦j👦.
+ - $D$ est le nombre de dimensions des données.
+
+3. Mise à jour des centroïdes :
+
+Une fois tous les points assignés, chaque centroïde est recalculé comme la moyenne des points de son cluster :
+
+
+$$c_j = \frac{1}{N_j} \sum_{x_i \in C_j} x_i$$
+
+- $N_j$ est le nombre de points appartenant au cluster $C_j$.
+
+Les étapes (2) Assignation et (3) Mise à jour sont répétées jusqu'à convergence, c'est-à-dire : Les centroïdes ne changent plus ou un critère d'arrêt est atteint (ex. un nombre maximal d'itérations).
+
+
 Avantages :
 
 - Simple à comprendre et à implémenter.
@@ -24,7 +52,14 @@ Inconvénients :
 
 L'algorithme Distance-Weighted k-Nearest Neighbors (DW-KNN) est une variante du k-Nearest Neighbors (KNN).
 
-DW-KNN fonctionne en attribuant un poids aux voisins les plus proches en fonction de leur distance au point à prédire. Contrairement au KNN classique, où chaque voisin contribue également à la décision finale, DW-KNN accorde une importance plus grande aux voisins les plus proches en utilisant une fonction de pondération basée sur la distance, comme l'inverse de la distance () ou une fonction gaussienne.
+DW-KNN fonctionne en attribuant un poids aux voisins les plus proches en fonction de leur distance au point à prédire. Contrairement au KNN classique, où chaque voisin contribue également à la décision finale, DW-KNN accorde une importance plus grande aux voisins les plus proches en utilisant une fonction de pondération basée sur la distance, comme l'inverse de la distance () ou une fonction gaussienne:
+$$w_i = \frac{1}{d(x, x_i)^\beta}$$
+
+ $d(x, x_i)$ est la distance entre le point à prédire et son voisin.
+
+ $\beta$ est un paramètre qui contrôle l’importance de la distance.
+
+
 
 Avantages :
 
@@ -43,7 +78,7 @@ Inconvénients :
 
 L'algorithme Condensed Nearest Neighbor (CNN) est une autre variante du KNN utilisée pour réduire la taille de l’ensemble d’entraînement tout en conservant une bonne précision de classification. Il fait partie des méthodes de réduction de prototypes qui visent à alléger le coût de stockage et de calcul de KNN en sélectionnant un sous-ensemble représentatif des données.
 
-CNN fonctionne en construisant un ensemble de prototypes à partir des données d’entraînement. Il commence avec un échantillon minimal et ajoute uniquement les points qui sont mal classés par cet échantillon. Ainsi, seule une fraction des données est conservée, ce qui permet d’accélérer les prédictions sans trop affecter la précision.
+CNN fonctionne en construisant un ensemble de prototypes $S$ à partir des données d’entraînement. Il commence avec un échantillon minimal et ajoute uniquement les points qui sont mal classés par cet échantillon. Ainsi, seule une fraction des données est conservée, ce qui permet d’accélérer les prédictions sans trop affecter la précision.
 
 Avantages :
 
