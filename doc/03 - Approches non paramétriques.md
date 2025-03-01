@@ -110,6 +110,36 @@ L'algorithme Locally Adaptive k-Nearest Neighbors (LA-KNN) est aussi une autre v
 
 LA-KNN fonctionne en augmentant dans les zones de faible densité (où les points sont plus dispersés) et en le réduisant dans les zones denses pour éviter les erreurs de classification dues au bruit. L’adaptation peut se faire à l’aide de métriques comme l’entropie locale ou la variance des distances entre les voisins.
 
+1. Mesure de densité locale à partir de l’entropie locale :
+
+
+
+$$H(x) = - \sum_{c \in C} P(c | x) \log P(c | x)$$
+
+où :
+
+ $H(x)$ est l’entropie locale au point .
+
+$P(c | x)$ est la probabilité estimée que  appartienne à la classe , basée sur les  plus proches voisins.
+
+ $C$ est l’ensemble des classes possibles.
+
+
+Plus l’entropie est élevée, plus l’incertitude sur la classe de $x$  est grande, ce qui pousse l’algorithme à augmenter $k$ pour obtenir une meilleure estimation.
+
+2. Ajustement dynamique de  :
+
+$$k(x) = k_{\min} + \left( k_{\max} - k_{\min} \right) \times \left( \frac{H(x)}{H_{\max}} \right)$$
+
+où :
+
+ $k_{\min}$ et $k_{\max}$ sont les valeurs limites de $k$ définies à l’avance.
+
+ $H_{\max}$ est l’entropie maximale observée dans le dataset.
+
+
+Cela signifie que lorsque l’entropie locale est élevée, $k$ augmente pour lisser les décisions, et lorsqu’elle est faible,  $k$ diminue pour éviter de lisser trop les frontières
+
 Avantages :
 
 - Améliore la robustesse du KNN dans les zones de densité variable.
