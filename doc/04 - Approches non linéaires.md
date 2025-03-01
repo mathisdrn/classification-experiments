@@ -88,11 +88,12 @@ $$ Gini_C(D) = \sum_{i=1}^{C} p_i \sum_{j=1}^{C} C_{ij} p_j $$
 Le terme $ C_{ij}$ représente le coût associé à la classification erronée d'une observation appartenant à la classe $𝑖$ en classe $𝑗$.
 
 $C_{ii}=0$ : Il n'y a aucun coût lorsqu'une observation est correctement classée.
+
 $ C_{ij} > 0$ pour $𝑖≠𝑗$: Il y a un coût lorsqu'une observation de la classe $𝑖$ est incorrectement classée comme appartenant à la classe $𝑗$.
 
 3. Prédiction avec prise en compte des coûts
 
- Plutôt que d’utiliser un vote majoritaire simple entre les arbres, la classe prédite est celle qui minimise le coût d’erreur attendu.
+ Plutôt que d’utiliser un vote majoritaire simple entre les arbres, la classe prédite est celle qui minimise le coût d’erreur attendu.Cette modification réduit le biais envers les classes majoritaires et améliore la prise en compte des classes minoritaires.
 
 Avantages :
 
@@ -148,7 +149,20 @@ Inconvénients :
 
 L'algorithme Early Stopping AdaBoost est une variante d'AdaBoost qui introduit un critère d’arrêt anticipé pour éviter l’overfitting. Dans la version classique d'AdaBoost, le modèle continue d'ajouter des classificateurs faibles jusqu'à atteindre un nombre prédéfini d’itérations, même si la performance commence à se dégrader sur les données de validation.
 
-Early Stopping AdaBoost surveille la performance du modèle à chaque itération et arrête l'entraînement lorsqu'une dégradation est détectée, généralement en suivant l'erreur sur un ensemble de validation. Cette approche permet d'éviter une complexité inutile et améliore la généralisation sur de nouvelles données.
+Early Stopping AdaBoost surveille la performance du modèle à chaque itération et arrête l'entraînement lorsqu'une dégradation est détectée, généralement en suivant l'erreur sur un ensemble de validation.
+
+$$ L_{\text{val}}(t^* + 1) > L_{\text{val}}(t^*) $$
+
+ Cette modification réduit le risque de sur-apprentissage et accélère l’entraînement car il permet d'éviter une complexité inutile et aussi il  améliore la généralisation sur de nouvelles données.
+
+- **\( L_{\text{val}}(t) \)** : Représente la **perte**  du modèle sur l’ensemble de **validation** à l’itération \( t \).
+
+- **\( t \)** : Correspond au **nombre d'itérations** d'AdaBoost, c'est-à-dire le nombre de classificateurs faibles ajoutés jusqu'à présent.
+
+- **\( t^* \)** : Désigne le **meilleur nombre d’itérations trouvé**, c'est-à-dire l’itération où la perte sur l’ensemble de validation est **minimale**.
+
+- **Condition d’arrêt** : Si, à l’itération \( t^* + 1 \), la perte \( L_{\text{val}} \)augmente par rapport à l’itération \( t^* \), cela signifie que le modèle commence à sur-apprendre les données d'entraînement, donc l'entraînement est stoppé pour éviter l’overfitting.
+
 
 Avantages :
 
