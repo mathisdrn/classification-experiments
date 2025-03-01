@@ -94,6 +94,12 @@ De la même manière, on peut calculer la réduction d’impureté(gain d’
 
 $$ \Delta Gini = Gini(S) - \sum_{v \in V} \frac{|S_v|}{|S|} Gini(S_v)$$
 
+### Bootstrap
+ 
+
+Le bootstrap est une méthode de rééchantillonnage avec remise qui crée plusieurs sous-ensembles à partir d’un même jeu de données. Dans Random Forest, il est utilisé pour entraîner chaque arbre sur un échantillon aléatoire, introduisant de la diversité et réduisant le sur-apprentissage. Cette technique améliore la robustesse et la généralisation du modèle.
+
+
 ## Explication de la pertinence des métriques choisies.
 
 ## Protocole expérimental global

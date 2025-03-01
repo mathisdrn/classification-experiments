@@ -41,11 +41,7 @@ Classification : Chaque arbre vote pour une classe, et la classe majoritaire est
 
 Régression : La prédiction finale est la moyenne des prédictions des différents arbres.
 
-:::{admonition} Note : Bootstrap
-:class: note  
 
-Le bootstrap est une méthode de rééchantillonnage avec remise qui crée plusieurs sous-ensembles à partir d’un même jeu de données. Dans Random Forest, il est utilisé pour entraîner chaque arbre sur un échantillon aléatoire, introduisant de la diversité et réduisant le sur-apprentissage. Cette technique améliore la robustesse et la généralisation du modèle.
-:::
 
 Avantages :
 
@@ -87,7 +83,12 @@ Comme dans Random Forest, plusieurs arbres sont générés sur des échantil
 
 À chaque division, le critère de sélection (comme l’indice de Gini ou l’entropie) est ajusté pour tenir compte des coûts des erreurs.
 
+$$ Gini_C(D) = \sum_{i=1}^{C} p_i \sum_{j=1}^{C} C_{ij} p_j $$ 
 
+Le terme $ C_{ij}$ représente le coût associé à la classification erronée d'une observation appartenant à la classe $𝑖$ en classe $𝑗$.
+
+$C_{ii}=0$ : Il n'y a aucun coût lorsqu'une observation est correctement classée.
+$ C_{ij} > 0$ pour $𝑖≠𝑗$: Il y a un coût lorsqu'une observation de la classe $𝑖$ est incorrectement classée comme appartenant à la classe $𝑗$.
 
 3. Prédiction avec prise en compte des coûts
 
