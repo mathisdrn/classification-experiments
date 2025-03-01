@@ -11,6 +11,9 @@ L'algorithme des arbres de décision (Decision Tree) est une méthode d'appren
 :alt: decisiontree
 
 :::
+
+
+
 ### Principe de fonctionnement
 
 1. Création de l'arbre : L'algorithme divise les données en fonction de la caractéristique qui maximise la séparation des classes ou minimise l'erreur de prédiction. Ce choix se fait souvent avec des mesures comme l'entropie (pour l'indice de Gini ou l'information gain en classification) ou l'erreur quadratique moyenne (en régression).
@@ -23,7 +26,17 @@ L'algorithme des arbres de décision (Decision Tree) est une méthode d'appren
     
     - Régression : La valeur moyenne des observations contenues dans la feuille est utilisée comme prédiction.
 
-### Critères de division en classification
+
+Dans le cadre d’une classification binaire, les arbres de décision nécessitent une configuration optimisée pour garantir une bonne généralisation du modèle. Les principaux hyperparamètres influençant leur performance sont les suivants:
+
+1. Profondeur maximale de l’arbre: le nombre de divisions successives avant d’atteindre une feuille.Une profondeur trop élevée entraîne un sur-ajustement et Une profondeur trop faible risque un sous-ajustement.
+
+2. Nombre minimal d’échantillons par feuille: définit le nombre minimum d’échantillons qu’une feuille peut contenir et ne valeur trop faible permet une grande flexibilité mais augmente le risque d’overfitting et Une valeur plus élevée régularise l’arbre en évitant qu’il ne crée des feuilles avec très peu de données.
+
+3. Nombre minimal d’échantillons pour diviser un nœud: détermine le nombre minimum d’échantillons requis pour qu’un nœud puisse être divisé en sous-groupes.Un seuil trop faible entraîne une division excessive, rendant l’arbre trop complexe.
+et un seuil plus élevé empêche l’arbre de se diviser trop rapidement et améliore la généralisation du modèle.
+
+4.Critères de division en classification
 
 #### 1.Entropie
 
