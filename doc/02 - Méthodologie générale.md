@@ -106,7 +106,7 @@ Le bootstrap est une méthode de rééchantillonnage avec remise qui crée p
 
 Le schéma ci-dessous illustre le processus complet d'entraînement des modèles, de la préparation des données à l'évaluation des performances.
 
-:::{image} ./assets/echantillon_entrainement.jpg
+:::{image} ./../assets/echantillon_entrainement.jpg
 :width: 450px
 :alt: Pipeline of model training
 :::
@@ -119,7 +119,7 @@ Le jeu de données est divisé en deux parties : un ensemble d'entraînement et 
 
 La validation croisée (en anglais cross-validation) est une méthode d'évaluation qui consiste à diviser l'ensemble des données  d'entraînement en plusieurs sous-ensembles appelés "plis" (folds). À chaque itération, un pli est utilisé pour tester le modèle, tandis que les autres plis servent à l'entraîner. Ce processus se répète pour chaque pli, de sorte que chaque sous-ensemble est utilisé à la fois pour l'entraînement et pour le test. 
 
-:::{image} ./assets/processus_validation_croisee.jpg
+:::{image} ./../assets/processus_validation_croisee.jpg
 :width: 550px
 :alt: K-Fold Cross Validation
 :::
