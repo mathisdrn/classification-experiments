@@ -155,13 +155,13 @@ $$ L_{\text{val}}(t^* + 1) > L_{\text{val}}(t^*) $$
 
  Cette modification réduit le risque de sur-apprentissage et accélère l’entraînement car il permet d'éviter une complexité inutile et aussi il  améliore la généralisation sur de nouvelles données.
 
-- **\( L_{\text{val}}(t) \)** : Représente la **perte**  du modèle sur l’ensemble de **validation** à l’itération \( t \).
+- $$ L_{\text{val}}(t)$$ : Représente la **perte**  du modèle sur l’ensemble de **validation** à l’itération $$t $$.
 
-- **\( t \)** : Correspond au **nombre d'itérations** d'AdaBoost, c'est-à-dire le nombre de classificateurs faibles ajoutés jusqu'à présent.
+-$$t$$ : Correspond au **nombre d'itérations** d'AdaBoost, c'est-à-dire le nombre de classificateurs faibles ajoutés jusqu'à présent.
 
-- **\( t^* \)** : Désigne le **meilleur nombre d’itérations trouvé**, c'est-à-dire l’itération où la perte sur l’ensemble de validation est **minimale**.
+- $$t^*$$: Désigne le **meilleur nombre d’itérations trouvé**, c'est-à-dire l’itération où la perte sur l’ensemble de validation est **minimale**.
 
-- **Condition d’arrêt** : Si, à l’itération \( t^* + 1 \), la perte \( L_{\text{val}} \)augmente par rapport à l’itération \( t^* \), cela signifie que le modèle commence à sur-apprendre les données d'entraînement, donc l'entraînement est stoppé pour éviter l’overfitting.
+- **Condition d’arrêt**: Si, à l’itération \( t^* + 1 \), la perte \( L_{\text{val}} \)augmente par rapport à l’itération \( t^* \), cela signifie que le modèle commence à sur-apprendre les données d'entraînement, donc l'entraînement est stoppé pour éviter l’overfitting.
 
 
 Avantages :
