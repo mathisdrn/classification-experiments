@@ -1,5 +1,5 @@
 ---
-title: Approches paramétriques linéaires
+title: Approches paramétriques
 ---
 
 ## Régression logistique

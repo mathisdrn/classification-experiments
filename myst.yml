@@ -4,7 +4,7 @@ project:
   title: Classification binaire
   subtitle: Theory and implementation of classifiers
   subject: Machine Learning - Course Project
-  date: 2024-01-10
+  date: 2024-03-01
   github: https://github.com/mathisdrn/classification-experiements/
   license:
     content: CC-BY-SA-4.0
@@ -21,13 +21,14 @@ project:
     - file: doc/01 - Introduction.md
     - file: doc/02 - Méthodologie générale.md
     - file: doc/03 - Approches non paramétriques.md
-    - file: doc/04 - Approches non linéaires.md
-    - file: doc/05 - Approches paramétriques linéaires.md
+    - file: doc/04 - Approches paramétriques.md
+    - file: doc/05 - Approches non linéaires.md
     - title: Implémentation des classifieurs 
       children:
         - pattern: src_built/*.ipynb
     - file: src/results.ipynb
     - file: src/timing.ipynb
+    - file: doc/06 - Conclusion.md
     
 site:
   template: book-theme
