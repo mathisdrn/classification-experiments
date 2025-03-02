@@ -26,6 +26,8 @@ project:
     - title: Implémentation des classifieurs 
       children:
         - pattern: src_built/*.ipynb
+    - file: src/results.ipynb
+    - file: src/timing.ipynb
     
 site:
   template: book-theme

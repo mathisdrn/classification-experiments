@@ -36,7 +36,7 @@ def plot_precision_recall(y_true, y_val_proba):
     plt.show()
 
 def table_report(y_true, y_pred):
-    report_dict = classification_report(y_true, y_pred, output_dict=True, target_names=['ham', 'spam'])
+    report_dict = classification_report(y_true, y_pred, output_dict=True)
     report_dict.update({"accuracy": {"precision": None, "recall": None, "f1-score": report_dict["accuracy"], "support": report_dict['macro avg']['support']}})
     report_df = pd.DataFrame(report_dict).T
     report_df['support'] = report_df['support'].astype(int)

@@ -23,16 +23,24 @@ def oneHotEncodeColumns(data, columnsCategories):
     dataNumerical = data[:, columnsNumerical]
     return np.hstack((dataNumerical, dataEncoded)).astype(float)
 
-# Smaller specialized loaders
-def _abalone_loader(dataset):
+def _abalone8_loader():
     data = pd.read_csv(DATA_FOLDER / "abalone.data", header=None)
     data = pd.get_dummies(data, dtype=float)
-    if dataset == 'abalone8':
-        y = np.array([1 if elt == 8 else 0 for elt in data[8]])
-    elif dataset == 'abalone17':
-        y = np.array([1 if elt == 17 else 0 for elt in data[8]])
-    else:  # abalone20
-        y = np.array([1 if elt == 20 else 0 for elt in data[8]])
+    y = np.array([1 if elt == 8 else 0 for elt in data[8]])
+    X = np.array(data.drop([8], axis=1))
+    return X, y
+
+def _abalone17_loader():
+    data = pd.read_csv(DATA_FOLDER / "abalone.data", header=None)
+    data = pd.get_dummies(data, dtype=float)
+    y = np.array([1 if elt == 17 else 0 for elt in data[8]])
+    X = np.array(data.drop([8], axis=1))
+    return X, y
+
+def _abalone20_loader():
+    data = pd.read_csv(DATA_FOLDER / "abalone.data", header=None)
+    data = pd.get_dummies(data, dtype=float)
+    y = np.array([1 if elt == 20 else 0 for elt in data[8]])
     X = np.array(data.drop([8], axis=1))
     return X, y
 
@@ -205,20 +213,24 @@ def _wine4_loader():
     X = np.array(data.drop(["quality"], axis=1))
     return X, y
 
-def _yeast_loader(dataset):
+def _yeast3_loader():
     data = pd.read_csv(DATA_FOLDER / 'yeast.data', header=None, sep=r'\s+')
     data = data.drop([0], axis=1)
-    if dataset == 'yeast3':
-        y = np.array([1 if elt == 'ME3' else 0 for elt in data[9]])
-    else:  # yeast6
-        y = np.array([1 if elt == 'EXC' else 0 for elt in data[9]])
+    y = np.array([1 if elt == 'ME3' else 0 for elt in data[9]])
+    X = np.array(data.drop([9], axis=1))
+    return X, y
+
+def _yeast6_loader():
+    data = pd.read_csv(DATA_FOLDER / 'yeast.data', header=None, sep=r'\s+')
+    data = data.drop([0], axis=1)
+    y = np.array([1 if elt == 'EXC' else 0 for elt in data[9]])
     X = np.array(data.drop([9], axis=1))
     return X, y
 
 dataset_loaders = {
-    'abalone8': _abalone_loader,
-    'abalone17': _abalone_loader,
-    'abalone20': _abalone_loader,
+    'abalone8': _abalone8_loader,
+    'abalone17': _abalone17_loader,
+    'abalone20': _abalone20_loader,
     'autompg': _autompg_loader,
     'australian': _australian_loader,
     'balance': _balance_loader,
@@ -242,12 +254,12 @@ dataset_loaders = {
     'wdbc': _wdbc_loader,
     'wine': _wine_loader,
     'wine4': _wine4_loader,
-    'yeast3': _yeast_loader,
-    'yeast6': _yeast_loader
+    'yeast3': _yeast3_loader,
+    'yeast6': _yeast6_loader
 }
 
 def load_dataset(dataset):
     loader = dataset_loaders.get(dataset)
     if not loader:
         raise ValueError(f"Unrecognized dataset: {dataset}")
-    return loader(dataset)
+    return loader()
