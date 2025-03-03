@@ -2,216 +2,166 @@
 title: Approches non linéaires
 ---
 
-## Decision Tree
+## Techniques d'échantillonnage et d'ensemble
 
-L'algorithme des arbres de décision (Decision Tree) est une méthode d'apprentissage supervisé utilisée pour la classification et la régression. Il repose sur une structure arborescente où chaque nœud représente une question sur une caractéristique des données, chaque branche correspond à une réponse possible, et chaque feuille donne une prédiction.
+### Bootstrap / Bagging
+
+#### Concept
+Le Bagging (Bootstrap Aggregating) crée plusieurs modèles en échantillonnant avec remplacement l'ensemble de données original, puis agrège leurs prédictions pour améliorer la stabilité et la précision.
+
+:::{image} ./../assets/randomforest.png
+:width: 400px
+:alt: randomforest
+:::
+
+#### Fonctionnement
+Si nous avons un ensemble de données $D = \{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)\}$, le bagging crée $m$ échantillons bootstrap $D_1, D_2, ..., D_m$ en tirant $n$ exemples avec remplacement de $D$. Un modèle $f_i$ est construit sur chaque échantillon $D_i$. La prédiction finale est:
+
+Pour la régression:
+$$f_{bag}(x) = \frac{1}{m} \sum_{i=1}^{m} f_i(x)$$
+
+Pour la classification:
+$$f_{bag}(x) = \text{mode}\{f_1(x), f_2(x), ..., f_m(x)\}$$
+
+#### Avantages
+* Réduit la variance sans augmenter le biais
+* Parallélisable (chaque modèle peut être entraîné indépendamment)
+* Efficace contre le surapprentissage
+
+#### Inconvénients
+* Ne réduit pas le biais des modèles sous-jacents
+* Perte d'interprétabilité
+* Coût computationnel plus élevé que les modèles individuels
+
+### Boosting
+
+#### Concept
+Le Boosting construit séquentiellement des modèles où chaque nouveau modèle tente de corriger les erreurs des modèles précédents, donnant plus de poids aux exemples mal classifiés.
+
+#### Fonctionnement
+Pour un problème de classification binaire $y \in \{-1, 1\}$, avec des classificateurs faibles $h_t$, le boosting fonctionne ainsi:
+
+Initialisation: $D_1(i) = \frac{1}{n}$ pour tout $i$
+
+Pour $t = 1, 2, ..., T$:
+1. Entraîner un classificateur faible $h_t$ sur la distribution $D_t$
+2. Calculer l'erreur pondérée: $\epsilon_t = \sum_{i=1}^{n} D_t(i) \mathbb{1}(h_t(x_i) \neq y_i)$
+3. Calculer le poids du modèle: $\alpha_t = \frac{1}{2} \ln(\frac{1-\epsilon_t}{\epsilon_t})$
+4. Mettre à jour la distribution: $D_{t+1}(i) = \frac{D_t(i) \exp(-\alpha_t y_i h_t(x_i))}{Z_t}$ où $Z_t$ est un facteur de normalisation
+
+Le classificateur final est:
+$$H(x) = \text{sign}\left(\sum_{t=1}^{T} \alpha_t h_t(x)\right)$$
+
+#### Avantages
+* Réduit à la fois le biais et la variance
+* Peut créer un modèle fort à partir de classificateurs faibles
+* Très performant sur une grande variété de problèmes
+
+#### Inconvénients
+* Sensible aux valeurs aberrantes et au bruit
+* Risque de surapprentissage si trop d'itérations
+* Pas facilement parallélisable (nature séquentielle)
+
+## Algorithmes non linéaires
+
+### Arbres de décisions
+
+#### Concept général
+Un arbre de décision est un modèle qui prédit la valeur d'une variable cible en apprenant des règles de décision simples déduites des caractéristiques des données.
 
 :::{image} ./../assets/decision tree.png
 :width: 550px
 :alt: decisiontree
-
 :::
 
+#### Fonctionnement
+Pour construire un arbre, on sélectionne à chaque nœud la caractéristique qui maximise le gain d'information (ou minimise l'impureté). Pour la classification, on utilise généralement l'entropie ou l'indice de Gini:
 
+Entropie:
+$$H(S) = -\sum_{i=1}^{c} p_i \log_2(p_i)$$
 
-### Principe de fonctionnement
+Indice de Gini:
+$$G(S) = 1 - \sum_{i=1}^{c} p_i^2$$
 
-1. Création de l'arbre : L'algorithme divise les données en fonction de la caractéristique qui maximise la séparation des classes ou minimise l'erreur de prédiction. Ce choix se fait souvent avec des mesures comme l'entropie (pour l'indice de Gini ou l'information gain en classification) ou l'erreur quadratique moyenne (en régression).
+où $p_i$ est la proportion d'éléments de classe $i$ dans l'ensemble $S$.
 
-2. Parcours de l'arbre : Pour prédire une nouvelle observation, on part de la racine et on suit les branches en fonction des valeurs des caractéristiques jusqu'à atteindre une feuille.
+Le gain d'information est calculé par:
+$$IG(S, A) = H(S) - \sum_{v \in Values(A)} \frac{|S_v|}{|S|} H(S_v)$$
 
-3. Prédiction :
-    
-    - Classification : L'étiquette de la classe la plus fréquente dans la feuille est assignée.
-    
-    - Régression : La valeur moyenne des observations contenues dans la feuille est utilisée comme prédiction.
+où $S_v$ est le sous-ensemble où l'attribut $A$ a la valeur $v$.
 
+#### Avantages
+* Facile à comprendre et à interpréter
+* Nécessite peu de préparation des données
+* Peut gérer des variables numériques et catégorielles
 
-Dans le cadre d’une classification binaire, les arbres de décision nécessitent une configuration optimisée pour garantir une bonne généralisation du modèle. Les principaux hyperparamètres influençant leur performance sont les suivants:
+#### Inconvénients
+* Tendance à créer des arbres trop complexes (surapprentissage)
+* Instabilité (petits changements dans les données peuvent entraîner un arbre très différent)
+* Performance limitée sur certains problèmes complexes
 
-1. Profondeur maximale de l’arbre: le nombre de divisions successives avant d’atteindre une feuille.Une profondeur trop élevée entraîne un sur-ajustement et Une profondeur trop faible risque un sous-ajustement.
+### Forêts Aléatoires
 
-2. Nombre minimal d’échantillons par feuille: définit le nombre minimum d’échantillons qu’une feuille peut contenir et ne valeur trop faible permet une grande flexibilité mais augmente le risque d’overfitting et Une valeur plus élevée régularise l’arbre en évitant qu’il ne crée des feuilles avec très peu de données.
+#### Concept
+Une forêt aléatoire combine le principe du bagging avec une sélection aléatoire de caractéristiques à chaque nœud, créant ainsi un ensemble d'arbres de décision diversifiés.
 
-3. Nombre minimal d’échantillons pour diviser un nœud: détermine le nombre minimum d’échantillons requis pour qu’un nœud puisse être divisé en sous-groupes.Un seuil trop faible entraîne une division excessive, rendant l’arbre trop complexe.
-et un seuil plus élevé empêche l’arbre de se diviser trop rapidement et améliore la généralisation du modèle.
+#### Fonctionnement
+Une forêt aléatoire construit $B$ arbres de décision $\{T_1, T_2, ..., T_B\}$ sur des échantillons bootstrap. À chaque nœud, au lieu de considérer toutes les $p$ caractéristiques, on n'en considère qu'un sous-ensemble $m < p$ choisi aléatoirement.
 
-4.Critères de division en classification
+La prédiction finale est:
 
-#### 1.Entropie
+Pour la régression:
+$$f_{RF}(x) = \frac{1}{B} \sum_{b=1}^{B} T_b(x)$$
 
-L’entropie mesure l’homogénéité d’un ensemble. Elle est définie par :
-$$ H(S) = - p_1 \log_2 p_1 - p_2 \log_2 p_2$$
+Pour la classification:
+$$f_{RF}(x) = \text{mode}\{T_1(x), T_2(x), ..., T_B(x)\}$$
 
-où :
+Pour évaluer l'importance des variables, on peut utiliser la diminution moyenne de l'impureté (MDI):
+$$Imp(X_j) = \frac{1}{B} \sum_{b=1}^{B} \sum_{t \in T_b: v(t)=j} p(t) \Delta i(t)$$
 
- et $ p_i $ sont les proportions des classes dans l’ensemble .
+où $v(t)$ est la variable utilisée pour la division au nœud $t$, $p(t)$ est la proportion d'échantillons atteignant $t$, et $\Delta i(t)$ est la diminution d'impureté.
 
-Une entropie de 0 signifie que tous les éléments appartiennent à une seule classe (ensemble pur).
+#### Avantages
+* Performance supérieure à celle des arbres individuels
+* Robustesse au surapprentissage
+* Gère efficacement les grandes dimensions et les données manquantes
 
-Une entropie de 1 signifie que les classes sont réparties de manière égale (ensemble totalement incertain).
+#### Inconvénients
+* Moins interprétable qu'un arbre de décision unique
+* Coût computationnel et de mémoire élevé
+* Difficulté à modéliser certaines relations linéaires simples
 
+### AdaBoost
 
-Le gain d’information () est utilisé pour choisir la meilleure caractéristique qui permet la meilleu séparation des classes en mesurant la réduction d'entropie après chaque division, il est donné par la formule suivante:
-
-$$ IG(S, A) = H(S) - \sum_{v \in V} \frac{|S_v|}{|S|} H(S_v) $$
-
-où $S_v$ est le sous-ensemble des données ayant la valeur $v$ pour l’attribut .
-
-#### 2. Indice de Gini
-
-L'indice de Gini est une alternative à l'entropie et mesure l’impureté d’un ensemble :
-
-$$ Gini(S) = 1 - p_1^2 - p_2^2 $$
-
-où $p_i$ et sont les proportions des classes dans l’ensemble .
-L’indice de Gini est minimal (0) lorsque l’ensemble est homogène et maximal (0.5 en classification binaire) lorsque les classes sont équilibrées.
-
-De la même manière, on peut calculer la réduction d’impureté(gain d’information) avec l’indice de Gini :
-
-$$ \Delta Gini = Gini(S) - \sum_{v \in V} \frac{|S_v|}{|S|} Gini(S_v)$$
-
-## Forêt Aléatoire 
-:::{image} ./../assets/randomforest.png
-:width: 550px
-:alt: randomforest
-:::
-L’algorithme Forêt Aléatoire(Random Forest en anglais) est une extension des arbres de décision, utilisée pour la classification et la régression. Il repose sur un principe d’apprentissage ensembliste (ensemble learning), combinant plusieurs arbres pour améliorer la robustesse et la précision des prédictions.
-
-### 1. Construction d'une forêt d'arbres de décision
-
-L'algorithme génère plusieurs arbres en effectuant un échantillonnage aléatoire avec remise sur le jeu de données (bootstrap).
-
-À chaque division dans un arbre, un sous-ensemble aléatoire de caractéristiques est sélectionné pour éviter que tous les arbres se construisent de la même manière.
-
-### 2. Prédiction par agrégation des arbres
-
-- Classification : Chaque arbre vote pour une classe, et la classe majoritaire est retenue (vote majoritaire).
-- Régression : La prédiction finale est la moyenne des prédictions des différents arbres.
-
-### Bootstrap
- 
-
-Le bootstrap est une méthode de rééchantillonnage avec remise qui crée plusieurs sous-ensembles à partir d’un même jeu de données. Dans Random Forest, il est utilisé pour entraîner chaque arbre sur un échantillon aléatoire, introduisant de la diversité et réduisant le sur-apprentissage. Cette technique améliore la robustesse et la généralisation du modèle.
-
- Avantages
-
-- Plus précis et généralisable sans risque de surapprentissage qu'un arbre unique
-- Peu sensible aux valeurs aberrantes grâce à l'agrégation des arbres
-- Robustesse : Une petite variation dans les données n'impacte pas fortement le modèle
-- Gère bien les données manquantes et les grands ensembles de données
-
- Inconvénients
-
-- Moins interprétable qu'un arbre unique
-- Temps de calcul plus long pour de grands ensembles de données
-- Performances limitées sur des données très haute dimension
-
-## Forêt Aléatoire Sensible au Coût
-
-L’algorithme Forêt Aléatoire Sensible au Coût (Cost-Sensitive Random Forest en anglais) est une adaptation du Random Forest conçue pour prendre en compte des coûts différents d’erreur lors de la classification. Il est particulièrement utile lorsque les classes sont déséquilibrées ou que certaines erreurs ont un impact plus important que d’autres, comme en détection de fraude ou en diagnostic médical.
-
-### Formule du Gini pondéré par le coût
-
-$\text{Gini}_C(D) = \sum_{i=1}^{C} p_i \sum_{j=1}^{C} C_{ij} p_j$
-
-Où:
-- $C_{ij}$ représente le coût associé à la classification erronée d'une observation de classe $i$ en classe $j$
-- $C_{ii} = 0$ (pas de coût pour une classification correcte)
-- $C_{ij} > 0$ pour $i \neq j$ (coût positif pour une erreur)
-
-Principe de fonctionnement :
-
-1. Pondération des erreurs
-
-Contrairement au Random Forest classique, qui minimise simplement le taux d’erreur global, le Cost-Sensitive Random Forest attribue un coût à chaque type d’erreur.
-
-Une matrice de coûts est définie pour pénaliser différemment les erreurs en fonction de leur importance.
-
-2. Construction d’une forêt de décision pondérée
-
-Comme dans Random Forest, plusieurs arbres sont générés sur des échantillons bootstrap des données.
-
-À chaque division, le critère de sélection (comme l’indice de Gini ou l’entropie) est ajusté pour tenir compte des coûts des erreurs.
-
-$$ Gini_C(D) = \sum_{i=1}^{C} p_i \sum_{j=1}^{C} C_{ij} p_j $$ 
-
-Le terme $ C_{ij}$ représente le coût associé à la classification erronée d'une observation appartenant à la classe $𝑖$ en classe $𝑗$.
-
-$C_{ii}=0$ : Il n'y a aucun coût lorsqu'une observation est correctement classée.
-
-$ C_{ij} > 0$ pour $𝑖≠𝑗$: Il y a un coût lorsqu'une observation de la classe $𝑖$ est incorrectement classée comme appartenant à la classe $𝑗$.
-
-3. Prédiction avec prise en compte des coûts
-
- Plutôt que d’utiliser un vote majoritaire simple entre les arbres, la classe prédite est celle qui minimise le coût d’erreur attendu.Cette modification réduit le biais envers les classes majoritaires et améliore la prise en compte des classes minoritaires.
-
- Avantages
-
-- Meilleure prise en compte des déséquilibres de classe: Dans un problème où une classe est beaucoup moins fréquente que l’autre, Random Forest peut privilégier la classe majoritaire. En intégrant un coût plus élevé pour les erreurs sur la classe minoritaire, l’algorithme devient plus équitable.
-- Plus adapté aux contextes où certaines erreurs coûtent plus cher que d’autres : Par exemple, dans une détection de fraude bancaire, une fausse alerte (prédire une fraude inexistante) est moins grave qu’un faux négatif (ne pas détecter une fraude réelle).
-- Garde la robustesse du Random Forest tout en améliorant la gestion des erreurs critiques.
-
- Inconvénients
-
-- Nécessite de bien définir la matrice de coûts, ce qui peut être délicat en l’absence d’informations précises sur l’impact des erreurs.
-- Peut être plus long à entraîner, car l’arbre doit ajuster ses critères de sélection en fonction des coûts d’erreur.
-- Moins intuitif que le Random Forest standard, car les décisions ne sont plus basées uniquement sur des votes majoritaires.
-
-## AdaBoost (Adaptive Boosting)
-
-L'algorithme AdaBoost (Adaptive Boosting) est une méthode d’apprentissage supervisé utilisée principalement pour la classification. Il appartient à la famille des méthodes d’ensemble et fonctionne en combinant plusieurs classificateurs faibles (souvent des arbres de décision de profondeur 1, appelés stumps) pour créer un modèle puissant et robuste.
-
-AdaBoost fonctionne en attribuant un poids à chaque observation et en entraînant une série de classificateurs faibles de manière itérative. À chaque itération, les erreurs des modèles précédents sont amplifiées : les observations mal classées reçoivent un poids plus élevé pour que le modèle suivant se concentre davantage sur elles. La prédiction finale est obtenue par un vote pondéré des classificateurs.
+#### Concept
+AdaBoost (Adaptive Boosting) est un algorithme de boosting qui ajuste les poids des exemples mal classifiés à chaque itération et combine des classificateurs faibles en un classificateur fort.
 
 :::{image} ./../assets/Schematic-diagram-of-AdaBoost-algorithm.png
 :width: 450px
 :alt: Pipeline of model training
 :::
 
- Avantages
+#### Fonctionnement
+AdaBoost fonctionne comme suit:
 
-- Améliore la précision en combinant plusieurs modèles faibles.
-- Fonctionne bien sur des données bruitées et complexes.
-- Peut être utilisé avec différents modèles de base (arbres, SVM, etc.).
+Initialisation: $w_i^{(1)} = \frac{1}{n}$ pour $i = 1, 2, ..., n$
 
- Inconvénients
+Pour $t = 1, 2, ..., T$:
+1. Entraîner un classificateur faible $h_t$ en utilisant les poids $w_i^{(t)}$
+2. Calculer l'erreur pondérée: $\epsilon_t = \sum_{i=1}^{n} w_i^{(t)} \mathbb{1}(h_t(x_i) \neq y_i)$
+3. Calculer le coefficient: $\alpha_t = \frac{1}{2} \ln(\frac{1-\epsilon_t}{\epsilon_t})$
+4. Mettre à jour les poids: $w_i^{(t+1)} = w_i^{(t)} \exp(-\alpha_t y_i h_t(x_i))$
+5. Normaliser: $w_i^{(t+1)} = \frac{w_i^{(t+1)}}{\sum_{j=1}^{n} w_j^{(t+1)}}$
 
-- Sensible aux données bruitées et aux outliers, qui peuvent être sur-appris.
-- Peut être lent si le nombre d’itérations est élevé.
-- Nécessite un bon choix de l’algorithme de base pour éviter l’overfitting.
+Le classificateur final est:
+$$H(x) = \text{sign}\left(\sum_{t=1}^{T} \alpha_t h_t(x)\right)$$
 
-## Early Stopping AdaBoost
+#### Avantages
+* Simple à implémenter
+* Bonne performance sur de nombreux jeux de données
+* S'adapte automatiquement à l'importance relative des caractéristiques
 
-L'algorithme Early Stopping AdaBoost est une variante d'AdaBoost qui introduit un critère d’arrêt anticipé pour éviter l’overfitting. Dans la version classique d'AdaBoost, le modèle continue d'ajouter des classificateurs faibles jusqu'à atteindre un nombre prédéfini d’itérations, même si la performance commence à se dégrader sur les données de validation.
-
-Early Stopping AdaBoost surveille la performance du modèle à chaque itération et arrête l'entraînement lorsqu'une dégradation est détectée, généralement en suivant l'erreur sur un ensemble de validation.
-
-### Formule de l'arrêt précoce
-
-$L_{\text{val}}(t^* + 1) > L_{\text{val}}(t^*)$
-
-Où:
-- $L_{\text{val}}(t)$ : Perte sur l'ensemble de validation à l'itération $t$
-- $t^*$ : Meilleur nombre d'itérations trouvé
-- $t$ : Nombre d'itérations actuel
-
-Cette modification réduit le risque de sur-apprentissage et accélère l’entraînement car il permet d'éviter une complexité inutile et aussi il améliore la généralisation sur de nouvelles données.
-
-- $L_{\text{val}}(t)$ : Représente la **perte** du modèle sur l’ensemble de **validation** à l’itération $t$.
-- $t$ : Correspond au **nombre d'itérations** d'AdaBoost, c'est-à-dire le nombre de classificateurs faibles ajoutés jusqu'à présent.
-- $t^*$: Désigne le **meilleur nombre d’itérations trouvé**, c'est-à-dire l’itération où la perte sur l’ensemble de validation est **minimale**.
-
-- **Condition d’arrêt**: Si, à l’itération $t^* + 1$, la perte $L_{\text{val}} $ augmente par rapport à l’itération $t^*$, cela signifie que le modèle commence à sur-apprendre les données d'entraînement, donc l'entraînement est stoppé pour éviter l’overfitting.
-
- Avantages
-
-- Réduit le risque d'overfitting en arrêtant l'entraînement au bon moment.
-- Diminue le temps d'exécution en évitant des itérations inutiles.
-- Peut améliorer la performance sur des données bruitées.
-
- Inconvénients
-
-- Nécessite un ensemble de validation pour surveiller la performance.
-- Le choix du critère d'arrêt peut être délicat et nécessite des ajustements.
-- Peut ne pas être optimal si l'arrêt est déclenché trop tôt, empêchant le modèle d'atteindre son plein potentiel.
+#### Inconvénients
+* Sensible aux valeurs aberrantes et au bruit
+* Peut être surpassé par d'autres algorithmes de boosting (comme XGBoost)
+* Peut conduire au surapprentissage sur des données bruitées

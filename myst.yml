@@ -23,6 +23,7 @@ project:
     - file: doc/03 - Approches non paramétriques.md
     - file: doc/04 - Approches paramétriques.md
     - file: doc/05 - Approches non linéaires.md
+    - file: doc/05 - Approches non linéaires_bis.md
     - title: Implémentation des classifieurs 
       children:
         - pattern: src_built/*.ipynb
@@ -35,3 +36,4 @@ site:
   options:
     logo_text: "‎"
     hide_search: true
+    outline_maxdepth: 2

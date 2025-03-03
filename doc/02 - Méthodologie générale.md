@@ -17,7 +17,7 @@ On utilise la validation croisée pour évaluer les performances du modèle pour
 Une méthode courante pour l'optimisation des hyperparamètres est la recherche sur grille (Grid Search). Cette technique consiste à définir un ensemble de valeurs possibles pour chaque hyperparamètre et à entraîner le modèle avec toutes les combinaisons possibles de ces valeurs. Chaque configuration est évaluée à l'aide de la validation croisée, et la meilleure combinaison d'hyperparamètres est sélectionnée en fonction des performances obtenues.
 
 :::{image} ./../assets/gidsearch.jpg
-:width: 450px
+:width: 300px
 :alt: grid search
 :::
 
